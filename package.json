@@ -1,0 +1,16 @@
+{
+  "name": "agro-worst-ui-case-study",
+  "version": "1.0.0",
+  "description": "AI-Powered Agriculture Crop Advisory Assistant (Worst UI Edition / Anti-Pattern Case Study)",
+  "scripts": {
+    "dev": "concurrently -n \"SERVER,CLIENT\" -c \"magenta,green\" \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:server": "npm run dev --prefix server",
+    "dev:client": "npm run dev --prefix client",
+    "build:server": "npm run build --prefix server",
+    "build:client": "npm run build --prefix client",
+    "start": "node server/dist/index.js"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  }
+}

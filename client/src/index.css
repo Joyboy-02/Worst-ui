@@ -1,0 +1,114 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg-chaos: #050505;
+    --toxic-neon: #00ff66;
+    --hostile-magenta: #ff007f;
+    --searing-yellow: #ffff00;
+  }
+
+  body {
+    background-color: #030704;
+    color: #e0e0e0;
+    font-family: 'Share Tech Mono', 'Courier New', monospace;
+    cursor: crosshair;
+  }
+
+  /* Inverted custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 14px;
+    height: 14px;
+  }
+  ::-webkit-scrollbar-track {
+    background: repeating-linear-gradient(
+      45deg,
+      #ff007f,
+      #ff007f 10px,
+      #ffff00 10px,
+      #ffff00 20px
+    );
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #00ff66;
+    border: 3px solid #000;
+  }
+}
+
+/* CRT Scanline Overlay */
+.crt-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%, 
+    rgba(0, 0, 0, 0.35) 50%
+  ), linear-gradient(
+    90deg,
+    rgba(255, 0, 0, 0.04),
+    rgba(0, 255, 0, 0.02),
+    rgba(0, 0, 255, 0.04)
+  );
+  background-size: 100% 3px, 6px 100%;
+  z-index: 9999;
+}
+
+/* Phosphor Glow */
+.phosphor-glow {
+  text-shadow: 0 0 8px rgba(0, 255, 102, 0.75), 0 0 16px rgba(0, 255, 102, 0.35);
+}
+
+.magenta-glow {
+  text-shadow: 0 0 8px rgba(255, 0, 127, 0.8), 0 0 18px rgba(255, 0, 127, 0.4);
+}
+
+/* Hostile Cursor Shifts */
+.cursor-evade {
+  transition: transform 0.1s ease-out;
+}
+
+/* Export Nightmare Styles for printing */
+@media print {
+  body.export-upside-down {
+    transform: rotate(180deg) !important;
+    transform-origin: center center !important;
+  }
+  body.export-mirrored {
+    transform: scaleX(-1) !important;
+    transform-origin: center center !important;
+  }
+}
+
+.export-upside-down-preview {
+  transform: rotate(180deg);
+  transform-origin: center center;
+}
+
+.export-mirrored-preview {
+  transform: scaleX(-1);
+  transform-origin: center center;
+}
+
+/* Screen shake animation */
+@keyframes screen-shake {
+  0% { transform: translate(1px, 1px) rotate(0deg); }
+  10% { transform: translate(-2px, -3px) rotate(-1deg); }
+  20% { transform: translate(-4px, 0px) rotate(1deg); }
+  30% { transform: translate(4px, 3px) rotate(0deg); }
+  40% { transform: translate(2px, -2px) rotate(1deg); }
+  50% { transform: translate(-2px, 3px) rotate(-1deg); }
+  60% { transform: translate(-4px, 1px) rotate(0deg); }
+  70% { transform: translate(4px, 1px) rotate(-1deg); }
+  80% { transform: translate(-2px, -2px) rotate(1deg); }
+  90% { transform: translate(2px, 3px) rotate(0deg); }
+  100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
+
+.animate-screen-shake {
+  animation: screen-shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+}
