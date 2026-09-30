@@ -6,9 +6,9 @@
     "dev": "concurrently -n \"SERVER,CLIENT\" -c \"magenta,green\" \"npm run dev:server\" \"npm run dev:client\"",
     "dev:server": "npm run dev --prefix server",
     "dev:client": "npm run dev --prefix client",
-    "build": "cd client && npm install && npm run build",
+    "build": "cd client && npm install --include=optional && node ./node_modules/vite/bin/vite.js build",
     "build:server": "npm run build --prefix server",
-    "build:client": "npm run build --prefix client",
+    "build:client": "cd client && node ./node_modules/vite/bin/vite.js build",
     "start": "node server/dist/index.js"
   },
   "devDependencies": {
