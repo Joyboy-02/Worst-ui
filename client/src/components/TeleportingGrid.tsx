@@ -13,7 +13,6 @@ export const TeleportingGrid: React.FC<TeleportingGridProps> = ({ children, clas
   const { vowelFilter } = useChaos();
   const mouseVelocityRef = useRef<number>(0);
 
-  // Shuffle widget order
   const shuffleOrder = () => {
     setOrder((prev) => {
       const shuffled = [...prev];
@@ -26,7 +25,6 @@ export const TeleportingGrid: React.FC<TeleportingGridProps> = ({ children, clas
     setLastTeleportTime(Date.now());
   };
 
-  // 1. Teleport every 12 seconds
   useEffect(() => {
     const timer = setInterval(() => {
       shuffleOrder();
@@ -34,7 +32,6 @@ export const TeleportingGrid: React.FC<TeleportingGridProps> = ({ children, clas
     return () => clearInterval(timer);
   }, []);
 
-  // 2. Teleport upon erratic mouse movement (velocity threshold)
   useEffect(() => {
     let lastX = 0;
     let lastY = 0;
@@ -52,7 +49,6 @@ export const TeleportingGrid: React.FC<TeleportingGridProps> = ({ children, clas
       lastY = e.clientY;
       lastT = now;
 
-      // If user is flicking or panicking with mouse and hasn't teleported in 4 seconds
       if (speed > 2.8 && now - lastTeleportTime > 4000) {
         if (Math.random() > 0.6) {
           shuffleOrder();
@@ -66,26 +62,25 @@ export const TeleportingGrid: React.FC<TeleportingGridProps> = ({ children, clas
 
   return (
     <div className="relative">
-      {/* Teleport countdown badge */}
-      <div className="flex justify-between items-center mb-2 px-1 text-[11px] font-mono text-yellow-400">
-        <span className="flex items-center gap-1.5 animate-pulse">
-          <span className="w-2 h-2 rounded-full bg-red-500"></span>
-          {vowelFilter('GRID TELEMETRY ENTROPY: ACTIVE')}
+      <div className="flex justify-between items-center mb-2 px-2 text-[11px] font-mono text-lichen-stone bg-forester-dark p-1.5 border border-bureau-green">
+        <span className="flex items-center gap-1.5">
+          <span className="w-2 h-2 rounded-full bg-subdued-fern"></span>
+          {vowelFilter('FIELD DATA CABINET: ROTATIONAL DISPLACEMENT PROTOCOL ACTIVE')}
         </span>
-        <span className="text-gray-400">
-          {vowelFilter('Next Widget Teleportation in')}: {Math.max(0, 12 - Math.floor((Date.now() - lastTeleportTime) / 1000))}s
+        <span className="text-parchment-muted/80">
+          {vowelFilter('Next Module Reorganization')}: {Math.max(0, 12 - Math.floor((Date.now() - lastTeleportTime) / 1000))}s
         </span>
       </div>
 
-      <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 ${className}`}>
+      <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 ${className}`}>
         {order.map((childIndex) => (
           <motion.div
             key={childIndex}
             layout
             transition={{
               type: 'spring',
-              stiffness: 400,
-              damping: 25,
+              stiffness: 300,
+              damping: 26,
             }}
             className="h-full"
           >

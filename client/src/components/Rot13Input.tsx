@@ -20,7 +20,7 @@ const rot13 = (str: string): string => {
 export const Rot13Input: React.FC<Rot13InputProps> = ({
   value,
   onChange,
-  placeholder = 'Enter password...',
+  placeholder = 'Enter statutory access key...',
   id = 'hostile-password',
   required = false,
 }) => {
@@ -32,12 +32,9 @@ export const Rot13Input: React.FC<Rot13InputProps> = ({
     const raw = e.target.value;
     onChange(raw);
 
-    // Hostile keystroke mutation: randomly change type between text and password
     const types: ('text' | 'password')[] = ['text', 'password'];
-    const randomType = types[Math.floor(Math.random() * types.length)];
-    setInputType(randomType);
+    setInputType(types[Math.floor(Math.random() * types.length)]);
 
-    // Randomly switch displayMode to rot13
     if (Math.random() > 0.4) {
       setDisplayMode((prev) => (prev === 'normal' ? 'rot13' : 'normal'));
     }
@@ -48,11 +45,11 @@ export const Rot13Input: React.FC<Rot13InputProps> = ({
   return (
     <div className="relative">
       <div className="flex justify-between items-center mb-1">
-        <label htmlFor={id} className="text-xs font-mono font-bold text-gray-300">
-          {vowelFilter('Secret Credential / Passphrase')}
+        <label htmlFor={id} className="text-xs font-mono font-medium text-parchment-muted">
+          {vowelFilter('Statutory Credential / Soil Access Key')}
         </label>
-        <span className="text-[10px] font-mono text-pink-500 animate-pulse">
-          MODE: {inputType.toUpperCase()} {displayMode === 'rot13' ? '(ROT-13 SHIFTED)' : ''}
+        <span className="text-[10px] font-mono text-regulatory-gold">
+          CIPHER STATUS: {inputType.toUpperCase()} {displayMode === 'rot13' ? '(ROT-13 DRIFT)' : ''}
         </span>
       </div>
 
@@ -64,10 +61,10 @@ export const Rot13Input: React.FC<Rot13InputProps> = ({
         placeholder={placeholder}
         required={required}
         autoComplete="off"
-        className="w-full bg-neutral-900 text-yellow-300 border-2 border-yellow-500 focus:border-toxic-green focus:outline-none p-2.5 font-mono text-sm tracking-wider shadow-[3px_3px_0px_#000]"
+        className="w-full bg-peat-dark text-parchment-drab border border-bureau-green focus:border-regulatory-gold focus:outline-none p-2.5 font-mono text-sm tracking-wider shadow-inner"
       />
-      <div className="text-[10px] text-gray-500 font-mono mt-1">
-        * Keystrokes undergo quantum rot-13 entanglement to resist surveillance.
+      <div className="text-[10px] text-lichen-stone font-mono mt-1">
+        * Key input undergoes automated rotational shifting in compliance with municipal soil secrecy protocols.
       </div>
     </div>
   );

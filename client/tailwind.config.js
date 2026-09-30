@@ -7,54 +7,43 @@ export default {
   theme: {
     extend: {
       colors: {
-        'toxic-green': '#00ff41',
-        'hostile-pink': '#ff007f',
-        'dread-yellow': '#ffff00',
-        'cyan-burn': '#00ffff',
-        'blood-orange': '#ff3300',
-        'cursed-purple': '#bf00ff',
+        'forester-dark': '#141c14',
+        'peat-dark': '#1d1712',
+        'bureau-green': '#2d4a30',
+        'officer-moss': '#3e5838',
+        'parchment-drab': '#e2ded4',
+        'parchment-muted': '#c8c2b3',
+        'lichen-stone': '#829180',
+        'soil-umber': '#453326',
+        'dry-bark': '#5c4533',
+        'regulatory-gold': '#b89438',
+        'warning-rust': '#a8422b',
+        'subdued-fern': '#4f7251',
       },
       fontFamily: {
-        comic: ['"Comic Sans MS"', '"Comic Neue"', 'cursive', 'sans-serif'],
-        terminal: ['"VT323"', '"Courier New"', 'monospace'],
-        papyrus: ['Papyrus', 'fantasy', 'serif'],
-        impact: ['Impact', 'Haettenschweiler', 'sans-serif'],
+        serif: ['Georgia', 'Cambria', '"Times New Roman"', 'Times', 'serif'],
+        mono: ['"Share Tech Mono"', '"Courier New"', 'Courier', 'monospace'],
+        display: ['"Book Antiqua"', 'Palatino', 'Georgia', 'serif'],
       },
       animation: {
-        'strobe-fast': 'strobe 0.15s infinite',
-        'strobe-slow': 'strobe 0.6s infinite',
-        'jitter': 'jitter 0.2s infinite',
-        'marquee': 'marquee 12s linear infinite',
-        'marquee-reverse': 'marqueeRev 10s linear infinite',
-        'flicker': 'flicker 0.1s infinite',
+        'bureau-shift': 'shift 12s infinite',
+        'subtle-buzz': 'buzz 0.1s infinite',
+        'slow-marquee': 'marquee 22s linear infinite',
       },
       keyframes: {
-        strobe: {
-          '0%, 100%': { opacity: '1', backgroundColor: '#ff0000' },
-          '50%': { opacity: '0.2', backgroundColor: '#00ffff' },
+        shift: {
+          '0%, 100%': { transform: 'scale(1)' },
+          '50%': { transform: 'scale(0.998)' },
         },
-        jitter: {
-          '0%': { transform: 'translate(0, 0) rotate(0deg)' },
-          '25%': { transform: 'translate(-3px, 2px) rotate(-1deg)' },
-          '50%': { transform: 'translate(2px, -3px) rotate(1.5deg)' },
-          '75%': { transform: 'translate(-2px, -2px) rotate(-0.5deg)' },
-          '100%': { transform: 'translate(3px, 1px) rotate(0.5deg)' },
+        buzz: {
+          '0%, 100%': { transform: 'translate(0, 0)' },
+          '50%': { transform: 'translate(0.5px, -0.5px)' },
         },
         marquee: {
           '0%': { transform: 'translateX(100%)' },
           '100%': { transform: 'translateX(-100%)' },
         },
-        marqueeRev: {
-          '0%': { transform: 'translateX(-100%)' },
-          '100%': { transform: 'translateX(100%)' },
-        },
-        flicker: {
-          '0%': { opacity: '0.97' },
-          '50%': { opacity: '1' },
-          '80%': { opacity: '0.85' },
-          '100%': { opacity: '0.99' },
-        }
-      }
+      },
     },
   },
   plugins: [],

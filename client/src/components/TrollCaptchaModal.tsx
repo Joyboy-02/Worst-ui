@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useChaos } from '../context/ChaosContext';
-import { HelpCircle, CheckCircle, XCircle } from 'lucide-react';
+import { HelpCircle } from 'lucide-react';
 
 interface TrollCaptchaProps {
   challengeId?: string;
@@ -43,14 +43,13 @@ export const TrollCaptchaModal: React.FC<TrollCaptchaProps> = ({
       if (res.ok) {
         onSuccess();
       } else {
-        setErrorMsg(data.message || 'Incorrect. The soil is not convinced.');
+        setErrorMsg(data.message || 'Verification failed: The Commission rejects your response.');
       }
     } catch {
-      // Local fallback bypass for offline resilience
       if (answer.toLowerCase().includes('entropy') || answer.toLowerCase().includes('0') || answer.toLowerCase().includes('robigo')) {
         onSuccess();
       } else {
-        setErrorMsg('The soil rejects your answer. Try contemplating entropy.');
+        setErrorMsg('The commission rejects your answer. Contemplate thermodynamic entropy.');
       }
     } finally {
       setIsVerifying(false);
@@ -58,63 +57,60 @@ export const TrollCaptchaModal: React.FC<TrollCaptchaProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-[99999] bg-black/90 flex items-center justify-center p-4 backdrop-blur-md select-none">
-      <div className="w-full max-w-md bg-neutral-950 border-4 border-yellow-400 p-6 shadow-[8px_8px_0px_#ff007f] font-mono">
-        <div className="flex items-center space-x-2 text-yellow-400 mb-4 pb-2 border-b border-yellow-500">
-          <HelpCircle className="w-6 h-6 animate-spin" />
-          <h3 className="text-lg font-black tracking-wide">
-            {vowelFilter('CAPTCHA: EXISTENTIAL SOIL RIDDLE')}
+    <div className="fixed inset-0 z-[99999] bg-forester-dark/95 flex items-center justify-center p-4 backdrop-blur-sm select-none">
+      <div className="w-full max-w-md bg-peat-dark border border-bureau-green p-6 shadow-xl font-mono">
+        <div className="flex items-center space-x-2 text-regulatory-gold mb-3 pb-2 border-b border-bureau-green">
+          <HelpCircle className="w-5 h-5" />
+          <h3 className="text-sm font-serif font-bold tracking-wide text-parchment-drab">
+            {vowelFilter('STATUTORY ENQUIRY: ARABLE INTELLECT EVALUATION')}
           </h3>
         </div>
 
-        <p className="text-xs text-gray-400 mb-2">
-          {vowelFilter('You have triggered the agricultural anti-bot defense matrix.')}
+        <p className="text-xs text-lichen-stone mb-2">
+          {vowelFilter('Section 22-A Anti-Automation Challenge. You must resolve the following agricultural query:')}
         </p>
 
-        <div className="p-4 bg-black border border-neutral-800 text-yellow-300 text-sm font-bold mb-4 leading-relaxed">
+        <div className="p-3 bg-forester-dark border border-bureau-green text-parchment-drab text-xs font-serif italic mb-3 leading-relaxed">
           "{vowelFilter(question)}"
         </div>
 
         {hint && (
-          <div className="text-[11px] text-pink-400 mb-4 bg-pink-950/40 p-2 border border-pink-800">
-            💡 {vowelFilter(hint)}
+          <div className="text-[11px] text-regulatory-gold mb-3 bg-forester-dark p-2 border border-bureau-green/50">
+            * Guidance Note: {vowelFilter(hint)}
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-3">
           <input
             type="text"
             value={answer}
             onChange={(e) => setAnswer(e.target.value)}
-            placeholder="Type your philosophical solution..."
+            placeholder="Enter philosophical resolution..."
             required
-            className="w-full bg-neutral-900 text-toxic-green border-2 border-toxic-green p-2.5 font-mono text-sm focus:outline-none shadow-[2px_2px_0px_#fff]"
+            className="w-full bg-forester-dark text-parchment-drab border border-bureau-green p-2 font-mono text-xs focus:outline-none focus:border-regulatory-gold"
           />
 
           {errorMsg && (
-            <div className="text-xs text-red-500 font-bold bg-red-950/60 p-2 border border-red-700">
-              {vowelFilter(errorMsg)}
+            <div className="text-xs text-warning-rust bg-forester-dark p-2 border border-warning-rust/50">
+              § {vowelFilter(errorMsg)}
             </div>
           )}
 
           <div className="flex justify-between items-center pt-2">
             <button
               type="button"
-              onClick={() => {
-                // Troll cheat
-                setAnswer('entropy');
-              }}
-              className="text-[10px] text-gray-500 hover:text-yellow-400 underline"
+              onClick={() => setAnswer('entropy')}
+              className="text-[10px] text-lichen-stone hover:text-parchment-drab underline"
             >
-              [ Surrender to Entropy ]
+              [ Accept Entropy Default ]
             </button>
 
             <button
               type="submit"
               disabled={isVerifying}
-              className="bg-yellow-400 hover:bg-yellow-300 text-black font-black text-xs px-5 py-2.5 border-2 border-black shadow-[3px_3px_0px_#fff] uppercase tracking-wider"
+              className="bg-bureau-green hover:bg-officer-moss text-parchment-drab font-bold text-xs px-4 py-2 border border-regulatory-gold"
             >
-              {isVerifying ? 'Consulting Soil...' : vowelFilter('Submit Riddle Answer')}
+              {isVerifying ? 'Auditing...' : vowelFilter('Submit Resolution')}
             </button>
           </div>
         </form>

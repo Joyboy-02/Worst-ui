@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useChaos } from '../context/ChaosContext';
 import { useAuth } from '../context/AuthContext';
-import { Skull, Volume2, ShieldAlert, Sparkles, Frown } from 'lucide-react';
+import { Sparkles, Volume2, Bug, Shield, BookOpen } from 'lucide-react';
 
 interface NavItem {
   path: string;
@@ -12,33 +12,40 @@ interface NavItem {
 
 export const HostileNavbar: React.FC = () => {
   const location = useLocation();
-  const { expertMode, toggleExpertMode, vowelFilter, isDialUpPlaying, startDialUp, rageClicks } = useChaos();
+  const {
+    expertMode,
+    toggleExpertMode,
+    vowelFilter,
+    isMosquitoDroning,
+    toggleMosquito,
+    startDialUp,
+    isDialUpPlaying,
+  } = useChaos();
   const { user, logout } = useAuth();
 
   const navItems: NavItem[] = [
     {
       path: '/',
-      defaultLabel: 'Welcome Portal',
-      hostileLabels: ['Abandon Hope', 'Return to Clay', 'Fallow Dirt', 'Error 418: Teapot'],
+      defaultLabel: 'Division of Arable Land',
+      hostileLabels: ['Erosion Assessment Portal', 'Form 1040-SOIL', 'Fallow Ground Entry', 'Deforestation Gazette'],
     },
     {
       path: '/dashboard',
-      defaultLabel: 'Telemetry Hub',
-      hostileLabels: ['Shifting Sands', 'Rotting Meters', 'Panic Room', 'Soil Crisis'],
+      defaultLabel: 'Soil Degradation Audit',
+      hostileLabels: ['Phosphorus Citation Bureau', 'Acidity Triage Hub', 'Registry of Soil Decay', 'Sediment Hearing'],
     },
     {
       path: '/advisory/new',
-      defaultLabel: 'New Advisory',
-      hostileLabels: ['Invoke Ruin', 'Torture Agronomist', 'Labyrinth Of Blight', 'Waste Fertilizer'],
+      defaultLabel: 'Chemical Application Filing',
+      hostileLabels: ['Nitrogen Violation Appeal', 'Pest Remediation Petition', 'Blight Incident Report', 'Audit Submission'],
     },
     {
       path: '/history',
-      defaultLabel: 'Past Submissions',
-      hostileLabels: ['Hall Of Failures', 'Archive Of Regret', 'The Graveyard', 'Infinite Void'],
+      defaultLabel: 'Registry of Failed Harvests',
+      hostileLabels: ['Archives of Crop Neglect', 'Chronicle of Famine Risk', 'Dead Root Docket', 'Historical Blight Index'],
     },
   ];
 
-  // Map of hover texts for links
   const [hoverTextMap, setHoverTextMap] = useState<Record<string, string>>({});
 
   const handleMouseEnter = (path: string, hostileLabels: string[]) => {
@@ -47,7 +54,6 @@ export const HostileNavbar: React.FC = () => {
   };
 
   const handleMouseLeave = (path: string) => {
-    // 50% chance it doesn't change back immediately to confuse the user!
     if (Math.random() > 0.4) {
       setHoverTextMap((prev) => {
         const copy = { ...prev };
@@ -58,32 +64,32 @@ export const HostileNavbar: React.FC = () => {
   };
 
   return (
-    <nav className="bg-neutral-950 border-b-4 border-toxic-green sticky top-0 z-40 select-none shadow-[0_4px_20px_rgba(0,255,102,0.2)]">
-      {/* Top micro-marquee warning banner */}
-      <div className="bg-yellow-400 text-black font-mono font-black text-xs py-1 px-4 overflow-hidden border-b border-black flex justify-between items-center">
-        <span className="animate-marquee whitespace-nowrap">
-          ⚠️ NOTICE: AGRO-WORST-UI v2.5 OPERATIONAL // NITROGEN LEACHING RISK AT 98.4% // ALL SCIENTIFIC ACCURACY STRICTLY GUARANTEED BY GEMINI 2.5 FLASH // PROCEED AT YOUR OWN PSYCHOLOGICAL RISK ⚠️
+    <nav className="bg-forester-dark border-b-2 border-bureau-green sticky top-0 z-40 select-none shadow-md">
+      {/* Top Regulatory Compliance Ticker */}
+      <div className="bg-bureau-green/80 text-parchment-drab font-mono text-[11px] py-1 px-4 overflow-hidden border-b border-forester-dark flex justify-between items-center tracking-wider">
+        <span className="animate-slow-marquee whitespace-nowrap">
+          FEDERAL SOIL COMMISSION BULLETIN § 84-A: ALL CROP PARAMETERS SUBJECT TO MANDATORY ARTIFICIAL INTELLIGENCE SCRUTINY // RESIDUAL PHOSPHATE RETENTION AT 14.8% // GEMINI 2.5 FLASH ACTIVE
         </span>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-4">
-        {/* Logo / Brand */}
-        <Link to="/" className="flex items-center space-x-2 group">
-          <div className="w-10 h-10 bg-toxic-green text-black flex items-center justify-center font-black text-2xl border-2 border-white group-hover:rotate-180 transition-transform duration-300">
+      <div className="max-w-7xl mx-auto px-4 py-2.5 flex flex-wrap items-center justify-between gap-4">
+        {/* Brand */}
+        <Link to="/" className="flex items-center space-x-2.5 group">
+          <div className="w-9 h-9 bg-bureau-green text-parchment-drab flex items-center justify-center font-serif font-bold text-lg border border-subdued-fern group-hover:bg-officer-moss transition-colors">
             🌾
           </div>
           <div>
-            <span className="text-xl font-black font-mono text-toxic-green tracking-wider phosphor-glow block">
-              {vowelFilter('AGRO-HOSTILE')}
+            <span className="text-base font-serif font-bold text-parchment-drab tracking-wide block bureau-glow">
+              {vowelFilter('DEPARTMENT OF AGRONOMIC COMPLIANCE')}
             </span>
-            <span className="text-[10px] text-pink-500 font-mono tracking-widest block uppercase">
-              {vowelFilter('Worst UI Agronomy Engine')}
+            <span className="text-[10px] text-regulatory-gold font-mono tracking-widest block uppercase">
+              {vowelFilter('Crop Advisory & Soil Depletion Bureau')}
             </span>
           </div>
         </Link>
 
-        {/* Shifting Hostile Navigation Links */}
-        <div className="flex flex-wrap items-center gap-1 md:gap-2">
+        {/* Shifting Navigation Links */}
+        <div className="flex flex-wrap items-center gap-1">
           {navItems.map((item) => {
             const isActive = location.pathname === item.path;
             const currentLabel = hoverTextMap[item.path] || item.defaultLabel;
@@ -95,10 +101,10 @@ export const HostileNavbar: React.FC = () => {
                 id={`nav-${item.path.replace('/', '') || 'home'}`}
                 onMouseEnter={() => handleMouseEnter(item.path, item.hostileLabels)}
                 onMouseLeave={() => handleMouseLeave(item.path)}
-                className={`px-3 py-1.5 text-xs md:text-sm font-mono font-bold tracking-tight border-2 transition-all duration-150 ${
+                className={`px-3 py-1.5 text-xs font-mono tracking-tight border transition-colors ${
                   isActive
-                    ? 'bg-toxic-green text-black border-white shadow-[3px_3px_0px_#fff]'
-                    : 'bg-black text-gray-300 border-neutral-700 hover:border-hostile-pink hover:text-white hover:bg-neutral-900'
+                    ? 'bg-bureau-green text-parchment-drab border-regulatory-gold font-bold shadow-sm'
+                    : 'bg-forester-dark text-lichen-stone border-transparent hover:border-bureau-green hover:text-parchment-drab hover:bg-peat-dark'
                 }`}
               >
                 {vowelFilter(currentLabel)}
@@ -107,61 +113,77 @@ export const HostileNavbar: React.FC = () => {
           })}
         </div>
 
-        {/* Hostile Control Matrix */}
+        {/* Ambient Nature Controls */}
         <div className="flex items-center space-x-2">
-          {/* Dial-up modem screech button */}
+          {/* Mosquito Drone */}
           <button
-            onClick={startDialUp}
-            title="Invoke 56k Dial-Up Serenade"
-            className={`p-2 border-2 text-xs font-mono font-bold flex items-center gap-1 ${
-              isDialUpPlaying
-                ? 'bg-red-600 text-yellow-300 border-yellow-300 animate-pulse'
-                : 'bg-neutral-900 text-cyan-400 border-cyan-400 hover:bg-cyan-950'
+            onClick={toggleMosquito}
+            id="mosquito-toggle"
+            title="Toggle persistent field mosquito drone"
+            className={`px-2.5 py-1.5 border text-xs font-mono flex items-center gap-1.5 transition-colors ${
+              isMosquitoDroning
+                ? 'bg-warning-rust/40 text-parchment-drab border-warning-rust'
+                : 'bg-forester-dark text-lichen-stone border-bureau-green hover:text-parchment-drab'
             }`}
           >
-            <Volume2 className="w-4 h-4 animate-bounce" />
-            <span className="hidden sm:inline">{vowelFilter('56k Audio')}</span>
+            <Bug className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">
+              {isMosquitoDroning ? '🦟 Drone Active' : '🦟 Ambience'}
+            </span>
           </button>
 
-          {/* Expert Mode (Disable Vowels) Toggle */}
+          {/* Cicada Ambience */}
+          <button
+            onClick={startDialUp}
+            title="Play summer cicada drone"
+            className={`px-2.5 py-1.5 border text-xs font-mono flex items-center gap-1 transition-colors ${
+              isDialUpPlaying
+                ? 'bg-regulatory-gold/20 text-regulatory-gold border-regulatory-gold'
+                : 'bg-forester-dark text-lichen-stone border-bureau-green hover:text-parchment-drab'
+            }`}
+          >
+            <Volume2 className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">🦗 Cicadas</span>
+          </button>
+
+          {/* Expert Mode (Drop Vowels) */}
           <button
             onClick={toggleExpertMode}
             id="expert-mode-toggle"
-            title="Toggle Expert Mode: Deletes all vowels from the application"
-            className={`px-2.5 py-1.5 border-2 text-xs font-mono font-black flex items-center gap-1.5 transition-colors ${
+            title="Toggle Expert Mode: Deletes vowels to simulate dense academic brevity"
+            className={`px-2.5 py-1.5 border text-xs font-mono font-bold flex items-center gap-1 transition-colors ${
               expertMode
-                ? 'bg-hostile-pink text-white border-yellow-300 shadow-[3px_3px_0px_#ffff00]'
-                : 'bg-neutral-900 text-gray-400 border-neutral-700 hover:text-white hover:border-pink-500'
+                ? 'bg-regulatory-gold text-forester-dark border-regulatory-gold'
+                : 'bg-forester-dark text-lichen-stone border-bureau-green hover:text-parchment-drab'
             }`}
           >
             <Sparkles className="w-3.5 h-3.5" />
-            <span>{expertMode ? 'XPRT MD: N VWLS' : vowelFilter('Expert Mode')}</span>
+            <span>{expertMode ? 'EXPRT: N VWLS' : vowelFilter('Expert Mode')}</span>
           </button>
 
-          {/* User profile or login button */}
           {user ? (
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 pl-1 border-l border-bureau-green">
               <div className="hidden lg:block text-right">
-                <div className="text-[11px] font-mono text-toxic-green truncate max-w-[120px]">
+                <div className="text-[11px] font-mono text-parchment-drab truncate max-w-[120px]">
                   @{vowelFilter(user.username)}
                 </div>
-                <div className="text-[9px] font-mono text-yellow-400">
-                  Chaos Tol: {user.chaos_tolerance_score}%
+                <div className="text-[9px] font-mono text-lichen-stone">
+                  Audit Grade: {user.chaos_tolerance_score}%
                 </div>
               </div>
               <button
                 onClick={logout}
-                className="bg-neutral-900 hover:bg-red-950 text-red-400 hover:text-red-200 border-2 border-red-800 text-xs px-2.5 py-1 font-mono font-bold"
+                className="bg-forester-dark hover:bg-warning-rust/30 text-lichen-stone hover:text-parchment-drab border border-bureau-green text-xs px-2 py-1 font-mono"
               >
-                {vowelFilter('Abandon')}
+                {vowelFilter('Sign Out')}
               </button>
             </div>
           ) : (
             <Link
               to="/auth/login"
-              className="bg-toxic-green text-black font-mono font-black text-xs px-3 py-1.5 border-2 border-white hover:bg-yellow-400 transition-colors shadow-[2px_2px_0px_#ff007f]"
+              className="bg-bureau-green text-parchment-drab font-mono text-xs px-3 py-1.5 border border-regulatory-gold hover:bg-officer-moss transition-colors"
             >
-              {vowelFilter('Enter Ordeal')}
+              {vowelFilter('Officer Portal')}
             </Link>
           )}
         </div>

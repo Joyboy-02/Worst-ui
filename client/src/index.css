@@ -3,73 +3,72 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
-    --bg-chaos: #050505;
-    --toxic-neon: #00ff66;
-    --hostile-magenta: #ff007f;
-    --searing-yellow: #ffff00;
-  }
-
   body {
-    background-color: #030704;
-    color: #e0e0e0;
-    font-family: 'Share Tech Mono', 'Courier New', monospace;
-    cursor: crosshair;
+    background-color: #121812;
+    background-image: 
+      radial-gradient(circle at 10% 20%, rgba(45, 74, 48, 0.15) 0%, transparent 50%),
+      radial-gradient(circle at 90% 80%, rgba(69, 51, 38, 0.2) 0%, transparent 60%),
+      linear-gradient(rgba(18, 24, 18, 0.98), rgba(22, 28, 20, 0.98));
+    color: #ded9cd;
+    font-family: 'Share Tech Mono', Georgia, 'Times New Roman', serif;
   }
 
-  /* Inverted custom scrollbar */
+  /* Austere, institutional nature scrollbar */
   ::-webkit-scrollbar {
-    width: 14px;
-    height: 14px;
+    width: 10px;
+    height: 10px;
   }
   ::-webkit-scrollbar-track {
-    background: repeating-linear-gradient(
-      45deg,
-      #ff007f,
-      #ff007f 10px,
-      #ffff00 10px,
-      #ffff00 20px
-    );
+    background: #172017;
+    border-left: 1px solid #2d4a30;
   }
   ::-webkit-scrollbar-thumb {
-    background: #00ff66;
-    border: 3px solid #000;
+    background: #3e5838;
+    border: 1px solid #141c14;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #4f7251;
   }
 }
 
-/* CRT Scanline Overlay */
-.crt-overlay {
+/* Regulatory Parchment Watermark Overlay */
+.nature-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
   pointer-events: none;
-  background: linear-gradient(
-    rgba(18, 16, 16, 0) 50%, 
-    rgba(0, 0, 0, 0.35) 50%
-  ), linear-gradient(
-    90deg,
-    rgba(255, 0, 0, 0.04),
-    rgba(0, 255, 0, 0.02),
-    rgba(0, 0, 255, 0.04)
-  );
-  background-size: 100% 3px, 6px 100%;
-  z-index: 9999;
+  background: 
+    repeating-linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.05),
+      rgba(0, 0, 0, 0.05) 1px,
+      transparent 1px,
+      transparent 28px
+    );
+  opacity: 0.7;
+  z-index: 9990;
 }
 
-/* Phosphor Glow */
-.phosphor-glow {
-  text-shadow: 0 0 8px rgba(0, 255, 102, 0.75), 0 0 16px rgba(0, 255, 102, 0.35);
+/* Official Institutional Green Seal Glow */
+.bureau-glow {
+  text-shadow: 0 0 6px rgba(130, 160, 128, 0.35);
 }
 
-.magenta-glow {
-  text-shadow: 0 0 8px rgba(255, 0, 127, 0.8), 0 0 18px rgba(255, 0, 127, 0.4);
+/* Subtle dry soil particles on click */
+.soil-particle {
+  position: fixed;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  animation: particle-fade 1.8s forwards ease-out;
+  z-index: 99999;
+  font-size: 14px;
 }
 
-/* Hostile Cursor Shifts */
-.cursor-evade {
-  transition: transform 0.1s ease-out;
+@keyframes particle-fade {
+  0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.9; }
+  100% { transform: translate(-50%, 15px) scale(0.5); opacity: 0; }
 }
 
 /* Export Nightmare Styles for printing */
@@ -96,19 +95,14 @@
 
 /* Screen shake animation */
 @keyframes screen-shake {
-  0% { transform: translate(1px, 1px) rotate(0deg); }
-  10% { transform: translate(-2px, -3px) rotate(-1deg); }
-  20% { transform: translate(-4px, 0px) rotate(1deg); }
-  30% { transform: translate(4px, 3px) rotate(0deg); }
-  40% { transform: translate(2px, -2px) rotate(1deg); }
-  50% { transform: translate(-2px, 3px) rotate(-1deg); }
-  60% { transform: translate(-4px, 1px) rotate(0deg); }
-  70% { transform: translate(4px, 1px) rotate(-1deg); }
-  80% { transform: translate(-2px, -2px) rotate(1deg); }
-  90% { transform: translate(2px, 3px) rotate(0deg); }
-  100% { transform: translate(1px, -2px) rotate(-1deg); }
+  0% { transform: translate(1px, 0px); }
+  20% { transform: translate(-2px, 1px); }
+  40% { transform: translate(2px, -1px); }
+  60% { transform: translate(-1px, 2px); }
+  80% { transform: translate(2px, 1px); }
+  100% { transform: translate(0px, 0px); }
 }
 
 .animate-screen-shake {
-  animation: screen-shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+  animation: screen-shake 0.35s ease-in-out both;
 }

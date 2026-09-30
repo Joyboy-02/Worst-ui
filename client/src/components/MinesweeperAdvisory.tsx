@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useChaos } from '../context/ChaosContext';
 import { CropAdvisoryData } from '../types/advisory';
-import { Bomb, CheckCircle2, ShieldAlert, Terminal, Eye, VolumeX, AlertOctagon } from 'lucide-react';
+import { AlertCircle, Eye, FileText, CheckCircle2, ShieldAlert } from 'lucide-react';
 
 interface MinesweeperProps {
   advisory: CropAdvisoryData;
@@ -22,25 +22,23 @@ export const MinesweeperAdvisory: React.FC<MinesweeperProps> = ({ advisory, meta
   const [tiles, setTiles] = useState<Tile[]>([]);
   const [revealedSentences, setRevealedSentences] = useState<string[]>([]);
   const [mineHits, setMineHits] = useState<number>(0);
-  const [terminalMode, setTerminalMode] = useState<boolean>(true);
+  const [reportFormat, setReportFormat] = useState<'gazette' | 'docket'>('gazette');
   const [allRevealed, setAllRevealed] = useState<boolean>(false);
 
-  // Initialize 25-tile Minesweeper Grid
   useEffect(() => {
     const pieces: { text: string; cat: 'diagnosis' | 'recommendation' | 'trivia' }[] = [
-      { text: `DIAGNOSIS: ${advisory.primaryDiagnosis}`, cat: 'diagnosis' },
-      { text: `HEALTH SCORE: ${advisory.cropHealthScore} / 100 [RISK: ${advisory.riskFactor}]`, cat: 'diagnosis' },
-      ...advisory.actionableRecommendations.map((r) => ({ text: `ACTION: ${r}`, cat: 'recommendation' as const })),
-      { text: 'Soil trivia: Nitrogen atoms in your field originated in dying red giant stars.', cat: 'trivia' },
-      { text: 'Soil trivia: Nematodes outnumber humans 4 out of 5 on this planet.', cat: 'trivia' },
-      { text: 'Soil trivia: pH below 5.5 triggers aluminum toxicity in root meristems.', cat: 'trivia' },
+      { text: `STATUTORY DIAGNOSIS: ${advisory.primaryDiagnosis}`, cat: 'diagnosis' },
+      { text: `HEALTH QUOTIENT: ${advisory.cropHealthScore} / 100 [HAZARD CLASSIFICATION: ${advisory.riskFactor}]`, cat: 'diagnosis' },
+      ...advisory.actionableRecommendations.map((r, i) => ({ text: `MANDATED REMEDIATION §${i + 1}: ${r}`, cat: 'recommendation' as const })),
+      { text: 'Agronomic Ledger: Subterranean earthworms process 15 metric tons of organic humus per acre annually.', cat: 'trivia' },
+      { text: 'Agronomic Ledger: Soil pH below 5.5 triggers immediate aluminum ion solubilization and legal liability.', cat: 'trivia' },
+      { text: 'Agronomic Ledger: Nitrogen leaching into riparian corridors violates Section 404 of the Clean Soil Act.', cat: 'trivia' },
     ];
 
     const grid: Tile[] = [];
     const totalTiles = 25;
     const mineIndices = new Set<number>();
 
-    // Place 6 mines randomly
     while (mineIndices.size < 6) {
       mineIndices.add(Math.floor(Math.random() * totalTiles));
     }
@@ -53,7 +51,7 @@ export const MinesweeperAdvisory: React.FC<MinesweeperProps> = ({ advisory, meta
           isMine: true,
           isRevealed: false,
           isFlagged: false,
-          content: '💥 LOCUST INFESTATION MINE! CROP REPORT CORRUPTED!',
+          content: '⚠️ BIOLOGICAL CONTAMINATION ALERT: CORE SAMPLE VOIDED BY PEST INFESTATION',
           category: 'mine',
         });
       } else {
@@ -70,7 +68,6 @@ export const MinesweeperAdvisory: React.FC<MinesweeperProps> = ({ advisory, meta
       }
     }
 
-    // Shuffle grid positions
     for (let i = grid.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [grid[i], grid[j]] = [grid[j], grid[i]];
@@ -84,15 +81,13 @@ export const MinesweeperAdvisory: React.FC<MinesweeperProps> = ({ advisory, meta
     if (tile.isRevealed || tile.isFlagged) return;
 
     if (tile.isMine) {
-      // Hit a mine!
       triggerScreenShake();
       setMineHits((m) => m + 1);
-      recordRageClick('minesweeper_locust_mine');
+      recordRageClick('core_sample_contamination_mine');
 
       setTiles((prev) => {
         const updated = [...prev];
         updated[index].isRevealed = true;
-        // Hostile penalty: re-hide a previously revealed piece of advice!
         const revealedNonMines = updated.filter((t, idx) => t.isRevealed && !t.isMine && idx !== index);
         if (revealedNonMines.length > 0) {
           const toHide = revealedNonMines[Math.floor(Math.random() * revealedNonMines.length)];
@@ -101,7 +96,6 @@ export const MinesweeperAdvisory: React.FC<MinesweeperProps> = ({ advisory, meta
         return updated;
       });
     } else {
-      // Safe tile: reveals agronomic sentence
       setTiles((prev) => {
         const updated = [...prev];
         updated[index].isRevealed = true;
@@ -129,49 +123,51 @@ export const MinesweeperAdvisory: React.FC<MinesweeperProps> = ({ advisory, meta
     setAllRevealed(true);
     setTiles((prev) => prev.map((t) => ({ ...t, isRevealed: true })));
     setRevealedSentences([
-      `DIAGNOSIS: ${advisory.primaryDiagnosis}`,
-      `HEALTH SCORE: ${advisory.cropHealthScore} / 100 [RISK: ${advisory.riskFactor}]`,
-      ...advisory.actionableRecommendations.map((r) => `ACTION: ${r}`),
+      `STATUTORY DIAGNOSIS: ${advisory.primaryDiagnosis}`,
+      `HEALTH QUOTIENT: ${advisory.cropHealthScore} / 100 [HAZARD CLASSIFICATION: ${advisory.riskFactor}]`,
+      ...advisory.actionableRecommendations.map((r, i) => `MANDATED REMEDIATION §${i + 1}: ${r}`),
     ]);
   };
 
   return (
-    <div className="space-y-6">
-      {/* Controls & Mode Bar */}
-      <div className="flex flex-wrap items-center justify-between gap-3 bg-neutral-900 p-3 border-2 border-toxic-green">
-        <div className="flex items-center space-x-3">
-          <span className="text-xs font-mono text-yellow-300 font-bold">
-            {vowelFilter('MINES DETONATED')}: <span className="text-red-500 font-black">{mineHits}</span>
+    <div className="space-y-5">
+      {/* Controls Bar */}
+      <div className="flex flex-wrap items-center justify-between gap-3 bg-forester-dark p-3 border border-bureau-green shadow-sm">
+        <div className="flex items-center space-x-4">
+          <span className="text-xs font-mono text-parchment-drab flex items-center gap-1.5">
+            <AlertCircle className="w-3.5 h-3.5 text-warning-rust" />
+            {vowelFilter('CONTAMINATION INCIDENTS')}: <span className="font-bold text-warning-rust">{mineHits}</span>
           </span>
-          <span className="text-xs font-mono text-toxic-green">
-            {vowelFilter('DISCOVERED TRUTHS')}: {revealedSentences.length}
+          <span className="text-xs font-mono text-lichen-stone flex items-center gap-1.5">
+            <CheckCircle2 className="w-3.5 h-3.5 text-subdued-fern" />
+            {vowelFilter('CERTIFIED SPECIMENS')}: <span className="text-parchment-drab font-bold">{revealedSentences.length}</span>
           </span>
         </div>
 
         <div className="flex items-center space-x-2">
           <button
-            onClick={() => setTerminalMode((m) => !m)}
-            className="text-xs font-mono px-3 py-1 bg-black border border-toxic-green text-toxic-green hover:bg-toxic-green hover:text-black flex items-center gap-1"
+            onClick={() => setReportFormat((f) => (f === 'gazette' ? 'docket' : 'gazette'))}
+            className="text-xs font-mono px-3 py-1.5 bg-peat-dark border border-bureau-green text-parchment-muted hover:text-parchment-drab flex items-center gap-1"
           >
-            <Terminal className="w-3.5 h-3.5" />
-            <span>{terminalMode ? 'CRT View' : 'Standard View'}</span>
+            <FileText className="w-3.5 h-3.5" />
+            <span>{reportFormat === 'gazette' ? 'Format: Gazette Docket' : 'Format: Official Ledger'}</span>
           </button>
 
           <button
             onClick={revealAllAdvice}
-            className="text-xs font-mono px-3 py-1 bg-neutral-800 border border-yellow-500 text-yellow-300 hover:bg-yellow-500 hover:text-black flex items-center gap-1"
+            className="text-xs font-mono px-3 py-1.5 bg-bureau-green border border-regulatory-gold/60 text-parchment-drab hover:bg-officer-moss flex items-center gap-1 font-medium"
           >
             <Eye className="w-3.5 h-3.5" />
-            <span>{vowelFilter("Surrender & Reveal All")}</span>
+            <span>{vowelFilter("Surrender Rights & Disclose All")}</span>
           </button>
         </div>
       </div>
 
-      {/* Minesweeper Interactive Grid */}
-      <div className="bg-black border-4 border-neutral-700 p-4 shadow-[8px_8px_0px_#00ff66]">
+      {/* Subsurface Core Sample Grid */}
+      <div className="bg-peat-dark border-2 border-bureau-green p-4 shadow-sm">
         <div className="text-center mb-3">
-          <p className="text-xs font-mono text-yellow-400">
-            {vowelFilter('CLICK TILES TO EXCAVATE YOUR AI CROP ADVICE // RIGHT CLICK TO FLAG LOCUST MINES')}
+          <p className="text-xs font-mono text-lichen-stone">
+            {vowelFilter('EXCAVATE 25 REGULATORY SOIL CORE SAMPLES // RIGHT CLICK TO PLACE OFFICIAL QUARANTINE SEAL [ § ] ON BLIGHT ZONES')}
           </p>
         </div>
 
@@ -181,116 +177,91 @@ export const MinesweeperAdvisory: React.FC<MinesweeperProps> = ({ advisory, meta
               key={tile.id}
               onClick={() => handleTileClick(idx)}
               onContextMenu={(e) => handleTileContextMenu(e, idx)}
-              className={`h-14 sm:h-16 font-mono font-black text-xs border-2 transition-all flex items-center justify-center p-1 text-center select-none ${
+              className={`h-14 sm:h-16 font-mono text-xs border transition-colors flex items-center justify-center p-1 text-center select-none ${
                 tile.isRevealed
                   ? tile.isMine
-                    ? 'bg-red-700 text-white border-yellow-400 animate-strobe-fast'
+                    ? 'bg-warning-rust/40 text-parchment-drab border-warning-rust font-bold'
                     : tile.category === 'diagnosis'
-                    ? 'bg-toxic-green text-black border-white'
+                    ? 'bg-bureau-green text-parchment-drab border-regulatory-gold'
                     : tile.category === 'recommendation'
-                    ? 'bg-cyan-500 text-black border-white'
-                    : 'bg-neutral-800 text-gray-300 border-neutral-600'
+                    ? 'bg-officer-moss/60 text-parchment-drab border-subdued-fern'
+                    : 'bg-forester-dark text-lichen-stone border-bureau-green'
                   : tile.isFlagged
-                  ? 'bg-yellow-400 text-black border-red-600'
-                  : 'bg-neutral-900 text-gray-400 border-neutral-700 hover:border-toxic-green hover:bg-neutral-800'
+                  ? 'bg-regulatory-gold/30 text-regulatory-gold border-regulatory-gold font-bold'
+                  : 'bg-forester-dark text-parchment-muted/60 border-bureau-green/60 hover:border-lichen-stone hover:text-parchment-drab'
               }`}
             >
               {tile.isRevealed ? (
                 tile.isMine ? (
-                  <Bomb className="w-6 h-6 animate-spin" />
+                  <span className="text-[10px] text-warning-rust font-bold">⚠️ QUARANTINE</span>
                 ) : (
                   <span className="text-[10px] leading-tight line-clamp-3">
-                    {tile.category === 'diagnosis' ? '🩺 DIAGNOSIS' : tile.category === 'recommendation' ? '🌱 ACTION' : '🔬 TRIVIA'}
+                    {tile.category === 'diagnosis' ? 'DIAGNOSIS' : tile.category === 'recommendation' ? 'REMEDY' : 'SPECIMEN'}
                   </span>
                 )
               ) : tile.isFlagged ? (
-                '🚩'
+                '§ QUAR'
               ) : (
-                `[ ${idx + 1} ]`
+                `[ Core #${idx + 1 < 10 ? '0' + (idx + 1) : idx + 1} ]`
               )}
             </button>
           ))}
         </div>
       </div>
 
-      {/* The Cursed Terminal Display */}
-      <div
-        className={`border-4 p-5 font-terminal text-sm md:text-base leading-relaxed relative ${
-          terminalMode
-            ? 'bg-black text-toxic-green border-toxic-green phosphor-glow animate-flicker'
-            : 'bg-neutral-950 text-white border-neutral-600'
-        }`}
-      >
-        <div className="flex items-center justify-between border-b border-toxic-green/50 pb-2 mb-4">
+      {/* Official Agronomic Report Transcript */}
+      <div className="border border-bureau-green bg-forester-dark p-6 text-sm leading-relaxed shadow-sm">
+        <div className="flex items-center justify-between border-b border-bureau-green pb-3 mb-4">
           <div className="flex items-center space-x-2">
-            <span className="w-3 h-3 rounded-full bg-red-500 inline-block"></span>
-            <span className="w-3 h-3 rounded-full bg-yellow-500 inline-block"></span>
-            <span className="w-3 h-3 rounded-full bg-toxic-green inline-block"></span>
-            <span className="font-mono text-xs text-gray-400 ml-2">
-              TERMINAL_VT100://GEMINI-2.5-FLASH-AGRONOMY-LOG
+            <span className="font-serif font-bold text-parchment-drab">
+              OFFICIAL AGRONOMIC AUDIT TRANSCRIPT
             </span>
           </div>
-          <span className="text-xs text-pink-400 font-mono">
-            {vowelFilter('Sarcasm Level: MAXIMUM')}
+          <span className="text-xs text-regulatory-gold font-mono">
+            {vowelFilter('Authority: Google Gemini 2.5 Flash SDK')}
           </span>
         </div>
 
-        {/* Marquee Banner inside Terminal */}
-        <div className="bg-toxic-green/10 border border-toxic-green py-1 px-3 mb-4 overflow-hidden">
-          <div className="animate-marquee whitespace-nowrap text-xs font-mono text-yellow-300">
-            {vowelFilter(
-              `WARNING: EXPOSURE TO REALISTIC AGRONOMIC DATA MAY CAUSE PROFOUND HUMILITY // RISK ASSESSMENT: ${advisory.riskFactor} // CROP HEALTH: ${advisory.cropHealthScore}%`
-            )}
-          </div>
-        </div>
-
-        {/* Decoded fragments */}
-        <div className="space-y-4 font-mono text-sm">
-          <div>
-            <span className="text-yellow-300 font-bold">
-              &gt; OVERALL CROP HEALTH SCORE:
-            </span>{' '}
-            <span
-              className={`font-black text-lg ${
-                advisory.cropHealthScore < 40
-                  ? 'text-red-500'
-                  : advisory.cropHealthScore < 70
-                  ? 'text-yellow-400'
-                  : 'text-toxic-green'
-              }`}
-            >
-              {advisory.cropHealthScore} / 100 ({advisory.riskFactor} RISK)
+        <div className="space-y-4 font-serif text-parchment-drab">
+          <div className="p-3 bg-peat-dark border-l-2 border-regulatory-gold text-xs font-mono">
+            <span className="text-regulatory-gold font-bold">&gt; COMPOSITE CROP HEALTH GRADE:</span>{' '}
+            <span className="text-parchment-drab font-bold text-sm">
+              {advisory.cropHealthScore} / 100 — CLASSIFICATION: {advisory.riskFactor} RISK
             </span>
           </div>
 
           <div>
-            <span className="text-yellow-300 font-bold">&gt; PRIMARY AGRONOMIC DIAGNOSIS:</span>
-            <p className="mt-1 p-3 bg-neutral-900/80 border-l-4 border-toxic-green text-gray-200">
+            <h4 className="font-bold text-sm text-parchment-drab mb-1">
+              {vowelFilter('I. PRIMARY STATUTORY DIAGNOSIS')}
+            </h4>
+            <p className="text-xs font-mono text-parchment-muted bg-peat-dark/50 p-3 border border-bureau-green leading-relaxed">
               {vowelFilter(advisory.primaryDiagnosis)}
             </p>
           </div>
 
           <div>
-            <span className="text-yellow-300 font-bold">&gt; ACTIONABLE RECOMMENDATIONS:</span>
-            <ul className="mt-2 space-y-2">
+            <h4 className="font-bold text-sm text-parchment-drab mb-1">
+              {vowelFilter('II. MANDATED REMEDIATION ACTIONS')}
+            </h4>
+            <ul className="space-y-2 mt-2">
               {advisory.actionableRecommendations.map((rec, i) => (
-                <li key={i} className="flex items-start space-x-2">
-                  <span className="text-toxic-green font-bold">[{i + 1}]</span>
-                  <span className="text-gray-300">{vowelFilter(rec)}</span>
+                <li key={i} className="text-xs font-mono text-parchment-muted flex items-start space-x-2 bg-peat-dark/30 p-2.5 border border-forester-dark">
+                  <span className="text-regulatory-gold font-bold">§ {i + 1}.</span>
+                  <span>{vowelFilter(rec)}</span>
                 </li>
               ))}
             </ul>
           </div>
 
           {revealedSentences.length > 0 && !allRevealed && (
-            <div className="mt-4 pt-3 border-t border-dashed border-neutral-700">
-              <span className="text-xs text-cyan-400 font-bold">
-                &gt; MINESWEEPER RAW TELEMETRY LOG:
+            <div className="mt-4 pt-3 border-t border-bureau-green">
+              <span className="text-xs text-lichen-stone font-mono font-bold">
+                AUDITED CORE SPECIMEN FRAGMENTS ({revealedSentences.length}/25):
               </span>
-              <div className="mt-1 space-y-1">
+              <div className="mt-2 space-y-1.5">
                 {revealedSentences.map((s, idx) => (
-                  <div key={idx} className="text-xs text-gray-400 font-mono">
-                    [{idx + 1}] {vowelFilter(s)}
+                  <div key={idx} className="text-[11px] text-parchment-muted font-mono bg-peat-dark p-2 border border-bureau-green/40">
+                    {vowelFilter(s)}
                   </div>
                 ))}
               </div>

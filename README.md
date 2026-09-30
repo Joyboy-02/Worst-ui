@@ -1,7 +1,7 @@
-# 🌾 AgroHostile 2.5: AI-Powered Agriculture Crop Advisory Assistant
-### *"Worst UI" Edition / Anti-Pattern & Cognitive Friction Case Study*
+# 🌾 AgroHostile 2.5: Department of Agronomic Standards
+### *Austere Environmental Bureaucracy & Anti-Pattern Case Study*
 
-> **Educational & Psychological Case Study**: A production-grade, end-to-end full-stack web application built to the highest technical and architectural standards (strict TypeScript, Zod schema validation, official Google GenAI SDK integration with `gemini-2.5-flash`, PostgreSQL schema with Row-Level Security), while intentionally executing a masterclass in horrendous, adversarial, and psychologically exhausting user experience (UI/UX dark patterns).
+> **Educational & Psychological Case Study**: A production-grade, end-to-end full-stack web application built to the highest technical and architectural standards (strict TypeScript, Zod schema validation, official Google GenAI SDK integration with `gemini-2.5-flash`, PostgreSQL schema with Row-Level Security), executing an austere, suffocatingly serious, non-funky institutional nature theme—filled with exhausting environmental red tape, evasive controls, and administrative friction.
 
 ---
 

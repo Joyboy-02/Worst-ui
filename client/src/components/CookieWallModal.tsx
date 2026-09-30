@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useChaos } from '../context/ChaosContext';
-import { ShieldCheck, Cookie, AlertCircle, RefreshCw } from 'lucide-react';
+import { ShieldCheck, BookOpen, FileText } from 'lucide-react';
 
 export const CookieWallModal: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(() => {
@@ -11,9 +11,8 @@ export const CookieWallModal: React.FC = () => {
   const [sliderVal, setSliderVal] = useState<number>(50);
   const [windowResized, setWindowResized] = useState<boolean>(false);
   const [individualTrackers, setIndividualTrackers] = useState<boolean[]>([true, true, true, true, true]);
-  const { vowelFilter, startDialUp } = useChaos();
+  const { vowelFilter } = useChaos();
 
-  // Resize window detection bypass
   useEffect(() => {
     let initialWidth = window.innerWidth;
     const handleResize = () => {
@@ -25,10 +24,9 @@ export const CookieWallModal: React.FC = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Runaway button effect for "Reject All"
   const handleRejectHover = () => {
-    const randomX = Math.floor(Math.random() * 300) - 150;
-    const randomY = Math.floor(Math.random() * 200) - 100;
+    const randomX = Math.floor(Math.random() * 320) - 160;
+    const randomY = Math.floor(Math.random() * 220) - 110;
     setRejectPos({ x: randomX, y: randomY });
   };
 
@@ -40,74 +38,75 @@ export const CookieWallModal: React.FC = () => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[99990] bg-black/90 flex items-center justify-center p-2 backdrop-blur-sm select-none">
-      {/* 98% viewport coverage */}
-      <div className="w-[98vw] h-[95vh] bg-neutral-900 border-4 border-toxic-green flex flex-col justify-between p-4 md:p-6 shadow-[10px_10px_0px_#ff007f] relative overflow-y-auto">
+    <div className="fixed inset-0 z-[99990] bg-forester-dark/95 flex items-center justify-center p-3 backdrop-blur-sm select-none">
+      <div className="w-[98vw] h-[95vh] bg-forester-dark border-2 border-bureau-green flex flex-col justify-between p-4 md:p-6 shadow-2xl relative overflow-y-auto">
         {/* Header */}
-        <div className="border-b-2 border-toxic-green pb-3 flex items-center justify-between">
+        <div className="border-b border-bureau-green pb-3 flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <Cookie className="w-8 h-8 text-yellow-400 animate-spin" />
+            <div className="w-9 h-9 bg-bureau-green flex items-center justify-center text-lg border border-subdued-fern text-regulatory-gold">
+              🏛️
+            </div>
             <div>
-              <h2 className="text-xl md:text-2xl font-black font-mono text-toxic-green tracking-wider phosphor-glow">
-                {vowelFilter('MANDATORY SOIL COOKIE CONSENT PROTOCOL')}
+              <h2 className="text-lg md:text-xl font-serif font-bold text-parchment-drab tracking-wide">
+                {vowelFilter('DEPARTMENT OF AGRONOMIC STANDARDS: FORM 88-SOIL')}
               </h2>
-              <p className="text-xs text-pink-500 font-mono">
-                {vowelFilter(`Layer ${currentLayer} of 4: Agronomic Surveillance Treaty of 1648`)}
+              <p className="text-xs text-regulatory-gold font-mono">
+                {vowelFilter(`Statutory Annex ${currentLayer} of 4: Environmental Data Collection & Agronomic Privacy Accord`)}
               </p>
             </div>
           </div>
 
-          <div className="text-right font-mono text-xs text-yellow-300">
+          <div className="text-right font-mono text-xs text-lichen-stone">
             {windowResized ? (
               <button
                 onClick={handleBypass}
-                className="bg-toxic-green text-black px-3 py-1.5 font-bold border-2 border-white animate-bounce shadow-[2px_2px_0px_#fff]"
+                className="bg-bureau-green text-parchment-drab px-3 py-1.5 font-bold border border-regulatory-gold hover:bg-officer-moss"
               >
-                {vowelFilter('WINDOW RESIZE DETECTED: BYPASS WALL')}
+                {vowelFilter('WINDOW GEOMETRY ALTERED: EXPEDITE WAIVER')}
               </button>
             ) : (
-              <span className="hidden sm:inline text-gray-500 text-[10px]">
-                {vowelFilter('(Bypass Hint: Resize window width by 80px or solve the ordeal)')}
+              <span className="hidden sm:inline text-lichen-stone/70 text-[10px]">
+                {vowelFilter('(Administrative Note: Window width adjustment of 80px triggers regulatory override)')}
               </span>
             )}
           </div>
         </div>
 
-        {/* Content depending on layer */}
-        <div className="my-4 flex-1 overflow-y-auto font-mono text-xs md:text-sm text-gray-300 space-y-4">
+        {/* Content */}
+        <div className="my-4 flex-1 overflow-y-auto font-mono text-xs text-parchment-muted space-y-4">
           {currentLayer === 1 && (
             <div className="space-y-3">
-              <div className="bg-black/60 p-3 border border-neutral-700 text-yellow-200 text-xs">
+              <div className="bg-peat-dark p-3.5 border border-bureau-green text-parchment-drab text-xs leading-relaxed">
                 {vowelFilter(
-                  'We, our 4,821 telemetry affiliates, and local subterranean earthworms collect hyper-granular soil telemetry, biometric frustration data, and keystroke kinetic stress vectors to train AI agronomists on human despair.'
+                  'Pursuant to Subsection 14(c) of the Arable Lands Protection Act, user telemetry, biometric input velocity, and agronomic keystrokes are recorded in permanent municipal soil registries. Disabling telemetry requires notarized municipal certification.'
                 )}
               </div>
-              <div className="h-40 overflow-y-scroll p-3 bg-neutral-950 border border-neutral-800 text-[11px] text-gray-400 leading-relaxed font-mono">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Quod erat demonstrandum. Agrotechnica destructiva nihilism perpetuum...
+              <div className="h-44 overflow-y-scroll p-3.5 bg-peat-dark/80 border border-forester-dark text-[11px] text-lichen-stone leading-relaxed font-serif">
+                Article 1.01: The undersigned applicant acknowledges that topsoil integrity represents a public trust administered under federal agronomic supervision. In the event that synthetic nitrogen inputs exceed municipal watershed thresholds, the applicant consents to immediate biometric cross-referencing. Article 1.02: Subterranean macro-invertebrates (including Lumbricus terrestris) shall retain statutory bystander rights during all digital crop consultations...
               </div>
-              <p className="text-xs text-red-400 font-bold">
-                {vowelFilter('Notice: There is no close button. You cannot decline without consenting to decline.')}
+              <p className="text-[11px] text-warning-rust font-mono">
+                {vowelFilter('Statutory Notice: No dismiss button is provided by statute. You must complete all annexes.')}
               </p>
             </div>
           )}
 
           {currentLayer === 2 && (
             <div className="space-y-4">
-              <h3 className="text-base font-bold text-yellow-300">
-                {vowelFilter('Layer 2: Calibrate Your Soil Nitrogen Acceptance Ratio')}
+              <h3 className="text-sm font-serif font-bold text-regulatory-gold">
+                {vowelFilter('Annex II: Nitrogen Runoff Mitigation Calibration')}
               </h3>
-              <p className="text-xs text-gray-400">
-                {vowelFilter('Adjust the slider until it hits the exact existential balance of 73%. Any deviation will trigger immediate reset.')}
+              <p className="text-xs text-parchment-muted">
+                {vowelFilter('Adjust the administrative compliance regulator until it reaches precisely 73.0%. Any deviation will trigger immediate recalibration.')}
               </p>
-              <div className="p-4 bg-black border border-neutral-700 flex flex-col items-center">
-                <span className="text-3xl font-black text-toxic-green font-mono mb-2">{sliderVal}%</span>
+              <div className="p-4 bg-peat-dark border border-bureau-green flex flex-col items-center">
+                <span className="text-2xl font-mono font-bold text-parchment-drab mb-2">{sliderVal}%</span>
                 <input
                   type="range"
                   min="0"
                   max="100"
                   value={sliderVal}
                   onChange={(e) => setSliderVal(Number(e.target.value))}
-                  className="w-full h-3 bg-neutral-800 rounded-lg appearance-none cursor-pointer accent-toxic-green"
+                  className="w-full h-2 bg-forester-dark rounded appearance-none cursor-pointer accent-regulatory-gold"
                 />
               </div>
             </div>
@@ -115,21 +114,21 @@ export const CookieWallModal: React.FC = () => {
 
           {currentLayer === 3 && (
             <div className="space-y-3">
-              <h3 className="text-base font-bold text-yellow-300">
-                {vowelFilter('Layer 3: Granular Micro-Consent for Subterranean Organisms')}
+              <h3 className="text-sm font-serif font-bold text-regulatory-gold">
+                {vowelFilter('Annex III: Voluntary Disclosures to Third-Party Agronomic Bodies')}
               </h3>
-              <p className="text-xs text-gray-400">
-                {vowelFilter('You must uncheck each individual pest telemetry provider before continuing.')}
+              <p className="text-xs text-parchment-muted">
+                {vowelFilter('You must manually disavow each auxiliary ecological telemetry protocol to proceed.')}
               </p>
-              <div className="space-y-2 bg-black p-3 border border-neutral-700">
+              <div className="space-y-2 bg-peat-dark p-3.5 border border-bureau-green">
                 {[
-                  'Nematode Root Penetration Analytics Corp.',
-                  'Aphid Honeydew Extraction Telemetry Ltd.',
-                  'Soil Mycorrhizal Spore Advertising Partners',
-                  'Nitrosomonas Bacteria Guilt Surveillance',
-                  'Locust Swarm Early Warning (Monetized)',
+                  'Nematode Population Impact Assessment Board',
+                  'Subterranean Fungal Network Telemetry Registry',
+                  'Municipal Fertilizer Audit Commission',
+                  'State Rhizosphere Oversight Agency',
+                  'Locust Migration Early Advisory Bureau',
                 ].map((name, idx) => (
-                  <label key={idx} className="flex items-center gap-2 text-xs text-gray-300 cursor-pointer">
+                  <label key={idx} className="flex items-center gap-2.5 text-xs text-parchment-muted cursor-pointer">
                     <input
                       type="checkbox"
                       checked={individualTrackers[idx]}
@@ -138,7 +137,7 @@ export const CookieWallModal: React.FC = () => {
                         updated[idx] = !updated[idx];
                         setIndividualTrackers(updated);
                       }}
-                      className="accent-pink-500 w-4 h-4"
+                      className="accent-bureau-green w-3.5 h-3.5"
                     />
                     <span>{vowelFilter(name)}</span>
                   </label>
@@ -148,39 +147,39 @@ export const CookieWallModal: React.FC = () => {
           )}
 
           {currentLayer === 4 && (
-            <div className="space-y-4 text-center py-6">
-              <ShieldCheck className="w-16 h-16 text-toxic-green mx-auto animate-bounce" />
-              <h3 className="text-xl font-black text-toxic-green font-mono">
-                {vowelFilter('Layer 4: Final Psychological Oath')}
+            <div className="space-y-3 text-center py-6">
+              <FileText className="w-12 h-12 text-regulatory-gold mx-auto mb-2" />
+              <h3 className="text-lg font-serif font-bold text-parchment-drab">
+                {vowelFilter('Annex IV: Final Declaration Under Penalty of Agronomic Perjury')}
               </h3>
-              <p className="text-xs text-yellow-200 max-w-md mx-auto">
-                {vowelFilter('By proceeding, you pledge to submit to erratic layout shifts and accept that Gemini AI 2.5 Flash possesses higher agronomic intelligence than any mortal farmer.')}
+              <p className="text-xs text-parchment-muted max-w-md mx-auto leading-relaxed">
+                {vowelFilter('The applicant solemnly affirms that all parameters entered into the Gemini 2.5 Flash Advisory Engine reflect true soil conditions and acknowledges full liability for resultant crop degradation.')}
               </p>
             </div>
           )}
         </div>
 
-        {/* Hostile Actions */}
-        <div className="border-t-2 border-toxic-green pt-3 flex flex-wrap items-center justify-between gap-4">
+        {/* Action Controls */}
+        <div className="border-t border-bureau-green pt-3 flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-2">
             {/* Runaway Reject Button */}
             <button
               onMouseEnter={handleRejectHover}
               style={{
                 transform: `translate(${rejectPos.x}px, ${rejectPos.y}px)`,
-                transition: 'transform 0.15s ease-out',
+                transition: 'transform 0.12s ease-out',
               }}
-              className="bg-red-700 hover:bg-red-800 text-white font-mono font-bold text-xs px-4 py-2 border-2 border-white shadow-[2px_2px_0px_#000]"
+              className="bg-peat-dark hover:bg-warning-rust/30 text-lichen-stone font-mono text-xs px-3.5 py-2 border border-lichen-stone/40"
             >
-              {vowelFilter('Reject All & Exit')}
+              {vowelFilter('Refuse All & Incur Immediate Audit')}
             </button>
 
             {currentLayer > 1 && (
               <button
                 onClick={() => setCurrentLayer((l) => l - 1)}
-                className="bg-neutral-800 text-gray-400 font-mono text-xs px-3 py-2 border border-neutral-600"
+                className="bg-forester-dark text-lichen-stone font-mono text-xs px-3 py-2 border border-bureau-green"
               >
-                {vowelFilter('Back')}
+                {vowelFilter('Previous Annex')}
               </button>
             )}
           </div>
@@ -190,31 +189,31 @@ export const CookieWallModal: React.FC = () => {
               <button
                 onClick={() => {
                   if (currentLayer === 2 && sliderVal !== 73) {
-                    alert('Nitrogen acceptance ratio is not 73%! The soil remains skeptical.');
+                    alert('Calibration failed: Runoff mitigation metric is not 73.0%. The Commission denies passage.');
                     return;
                   }
                   setCurrentLayer((l) => l + 1);
                 }}
-                className="bg-toxic-green text-black font-mono font-black text-xs md:text-sm px-6 py-2.5 border-2 border-white shadow-[3px_3px_0px_#ff007f] hover:bg-yellow-400 transition-colors"
+                className="bg-bureau-green text-parchment-drab font-mono text-xs px-5 py-2 border border-regulatory-gold hover:bg-officer-moss transition-colors"
               >
-                {vowelFilter('Proceed to Next Ordeal')} →
+                {vowelFilter('Proceed to Subsequent Annex')} →
               </button>
             ) : (
               <button
                 onClick={handleBypass}
-                className="bg-toxic-green text-black font-mono font-black text-sm px-8 py-3 border-2 border-white shadow-[4px_4px_0px_#ffff00] hover:bg-white animate-pulse"
+                className="bg-bureau-green text-parchment-drab font-mono font-bold text-xs px-6 py-2.5 border border-regulatory-gold hover:bg-officer-moss"
               >
-                {vowelFilter('Accept All 4,821 Trackers & Enter')}
+                {vowelFilter('Certify All 4 Annexes & Proceed')}
               </button>
             )}
           </div>
         </div>
 
-        {/* Hidden 1px escape pixel for clever users */}
+        {/* 1px escape pixel */}
         <button
           onClick={handleBypass}
-          title="Hidden pixel bypass"
-          className="absolute bottom-1 left-1 w-1 h-1 bg-transparent hover:bg-white cursor-pointer opacity-30"
+          title="Regulatory bypass"
+          className="absolute bottom-1 left-1 w-1 h-1 bg-transparent hover:bg-regulatory-gold cursor-pointer opacity-20"
         />
       </div>
     </div>

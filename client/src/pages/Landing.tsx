@@ -3,63 +3,54 @@ import { Link } from 'react-router-dom';
 import { useChaos } from '../context/ChaosContext';
 import { CookieWallModal } from '../components/CookieWallModal';
 import { StrobeWarning } from '../components/StrobeWarning';
-import { Skull, AlertTriangle, Bug, Zap, ArrowRight, Flame } from 'lucide-react';
+import { Shield, BookOpen, FileCheck, ArrowRight } from 'lucide-react';
 
 export const Landing: React.FC = () => {
-  const { vowelFilter, startDialUp, recordRageClick } = useChaos();
+  const { vowelFilter, startDialUp, isDialUpPlaying, recordRageClick, toggleMosquito, isMosquitoDroning } = useChaos();
   const [fleeOffset, setFleeOffset] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
 
-  // Fleeing CTA button: moves away when hovered
   const handleFlee = () => {
-    const randomX = Math.floor(Math.random() * 260) - 130;
-    const randomY = Math.floor(Math.random() * 160) - 80;
+    const randomX = Math.floor(Math.random() * 240) - 120;
+    const randomY = Math.floor(Math.random() * 140) - 70;
     setFleeOffset({ x: randomX, y: randomY });
-    recordRageClick('cta_flee_button');
+    recordRageClick('cta_flee_seed');
   };
 
   return (
-    <div className="min-h-screen bg-black text-white relative overflow-hidden select-none pb-20">
-      {/* 4-Layer Modal Cookie Consent Wall */}
+    <div className="min-h-screen bg-forester-dark text-parchment-drab relative overflow-hidden select-none pb-20">
       <CookieWallModal />
 
-      {/* Hero Marquee */}
-      <div className="bg-hostile-pink text-black font-black font-mono py-1.5 px-4 overflow-hidden border-b-2 border-black">
-        <div className="animate-marquee-reverse whitespace-nowrap text-xs md:text-sm">
-          🚨 SYSTEM WARNING: ALL SOWN CROPS FACE CERTAIN ENTROPIC DISSOLUTION // GEMINI 2.5 FLASH CALCULATING PLANETARY COLLAPSE TIMELINES // PLEASE REMAIN UNCOMFORTABLE 🚨
+      {/* Top Gazette Bulletin */}
+      <div className="bg-peat-dark text-lichen-stone font-mono text-[11px] py-1.5 px-4 overflow-hidden border-b border-bureau-green">
+        <div className="animate-slow-marquee whitespace-nowrap">
+          OFFICIAL GAZETTE: ANNUAL ARABLE LAND INVENTORY COMMISSION // SEED COMPLIANCE AUDITS MANDATORY UNDER EXECUTIVE STATUTE 14-B // ALL AGRICULTURAL DATA VERIFIED VIA GOOGLE GEMINI 2.5 FLASH SDK
         </div>
       </div>
 
-      <div className="max-w-6xl mx-auto px-4 pt-10">
-        {/* Sensory Overload Weather Strobe Feed */}
+      <div className="max-w-6xl mx-auto px-4 pt-8">
         <StrobeWarning />
 
         {/* Hero Section */}
-        <div className="border-4 border-toxic-green p-6 md:p-12 my-8 bg-neutral-950 relative shadow-[12px_12px_0px_#ffff00]">
-          {/* Sarcastic Badge */}
-          <div className="inline-block bg-red-600 text-yellow-300 font-mono font-black text-xs px-3 py-1 border-2 border-yellow-300 mb-4 animate-bounce">
-            ⚠️ {vowelFilter('OFFICIAL WORST UI / ANTI-PATTERN CASE STUDY')}
+        <div className="border border-bureau-green p-6 md:p-12 my-6 bg-peat-dark relative shadow-md">
+          <div className="inline-block bg-forester-dark text-regulatory-gold font-mono text-xs px-3 py-1 border border-regulatory-gold/60 mb-4 tracking-wider">
+            § {vowelFilter('OFFICIAL CASE STUDY IN ADVERSARIAL ENVIRONMENTAL COMPLIANCE')}
           </div>
 
-          <h1 className="text-3xl sm:text-5xl md:text-7xl font-black font-impact tracking-tight text-white mb-6 uppercase leading-none">
-            <span className="text-toxic-green phosphor-glow block">
-              {vowelFilter('AGRICULTURAL')}
-            </span>
-            <span className="text-hostile-pink block">
-              {vowelFilter('CROP ADVISORY')}
-            </span>
-            <span className="text-yellow-400 block text-2xl sm:text-4xl md:text-5xl mt-2 font-mono">
-              {vowelFilter('ASSISTANT OF DOOM')}
+          <h1 className="text-3xl sm:text-5xl md:text-6xl font-serif font-bold text-parchment-drab mb-5 tracking-tight leading-tight">
+            <span>{vowelFilter('DEPARTMENT OF AGRONOMIC STANDARDS')}</span>
+            <span className="block text-xl sm:text-3xl md:text-4xl text-regulatory-gold mt-2 font-mono font-normal">
+              {vowelFilter('CROP ADVISORY & PUNITIVE ENVIRONMENTAL AUDIT')}
             </span>
           </h1>
 
-          <p className="text-gray-300 font-mono text-sm md:text-lg max-w-3xl leading-relaxed mb-8 border-l-4 border-yellow-400 pl-4 bg-neutral-900/50 py-2">
+          <p className="text-parchment-muted font-mono text-xs sm:text-sm max-w-3xl leading-relaxed mb-8 border-l-2 border-regulatory-gold pl-4 bg-forester-dark/70 py-3">
             {vowelFilter(
-              'A production-grade, full-stack agrotechnology platform delivering scientifically authentic soil health, pest triage, and fertilizer formulations powered by Google Gemini 2.5 Flash—while subjecting the farmer to weaponized cognitive friction and hostile layout dynamics.'
+              'A production-grade, state-supervised agronomy infrastructure executing scientifically certified crop diagnosis and soil nutrient remediation via Google Gemini 2.5 Flash—while subjecting the agricultural applicant to strict administrative latency, evasive controls, and exhausting regulatory dark patterns.'
             )}
           </p>
 
-          {/* Call to Actions with Fleeing Button */}
-          <div className="flex flex-wrap items-center gap-6 pt-4">
+          {/* Action Buttons */}
+          <div className="flex flex-wrap items-center gap-4 pt-2">
             <div className="relative">
               <Link
                 to="/advisory/new"
@@ -68,75 +59,79 @@ export const Landing: React.FC = () => {
                   transform: `translate(${fleeOffset.x}px, ${fleeOffset.y}px)`,
                   transition: 'transform 0.12s ease-out',
                 }}
-                className="inline-block bg-toxic-green hover:bg-toxic-green/90 text-black font-mono font-black text-base md:text-lg px-8 py-4 border-4 border-white shadow-[6px_6px_0px_#ff007f] cursor-pointer"
+                className="inline-block bg-bureau-green hover:bg-officer-moss text-parchment-drab font-mono font-bold text-sm px-7 py-3.5 border border-regulatory-gold shadow-sm cursor-pointer"
               >
-                {vowelFilter('Submit Crop to The Ordeal')} →
+                {vowelFilter('Submit Crop Parameters for Audit (Form 14)')} →
               </Link>
             </div>
 
             <Link
               to="/dashboard"
-              className="bg-neutral-900 hover:bg-neutral-800 text-yellow-300 font-mono font-bold text-sm md:text-base px-6 py-4 border-2 border-yellow-400 shadow-[4px_4px_0px_#fff]"
+              className="bg-forester-dark hover:bg-peat-dark text-parchment-drab font-mono text-xs sm:text-sm px-5 py-3.5 border border-bureau-green"
             >
-              {vowelFilter('Enter Telemetry Hub')}
+              {vowelFilter('Access Soil Telemetry Hub')}
             </Link>
 
             <button
-              onClick={startDialUp}
-              className="bg-cyan-950 hover:bg-cyan-900 text-cyan-300 font-mono font-bold text-xs px-4 py-3 border border-cyan-400"
+              onClick={toggleMosquito}
+              className="bg-forester-dark hover:bg-peat-dark text-lichen-stone font-mono text-xs px-3.5 py-3 border border-bureau-green/60"
             >
-              🔊 {vowelFilter('Play Dial-Up Modem Screech')}
+              {isMosquitoDroning ? '🦟 Silence Field Ambience' : '🦟 Enable Field Ambience'}
             </button>
           </div>
         </div>
 
-        {/* Live Nihilistic Statistics */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 my-8">
+        {/* Bureaucratic Metrics Table */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 my-6">
           {[
-            { label: 'Harvest Failure Probability', val: '99.4%', color: 'text-red-500' },
-            { label: 'Global Topsoil Erosion Rate', val: '24 Billion T/yr', color: 'text-yellow-400' },
-            { label: 'System Empathy Calibration', val: '0.000%', color: 'text-cyan-400' },
-            { label: 'Agronomist Despair Index', val: 'MAXIMUM', color: 'text-hostile-pink' },
+            { label: 'Erosion Runoff Probability', val: '98.4%', code: 'REG-14' },
+            { label: 'Topsoil Leaching Index', val: '24.2 t/ha', code: 'ANNEX-IX' },
+            { label: 'Administrative Empathy Index', val: '0.00%', code: 'STATUTE-0' },
+            { label: 'Gemini AI Advisory Status', val: 'ACTIVE', code: 'SDK-2.5' },
           ].map((stat, idx) => (
             <div
               key={idx}
-              className="bg-neutral-950 border-2 border-neutral-700 p-4 text-center font-mono shadow-[4px_4px_0px_#000]"
+              className="bg-peat-dark border border-bureau-green p-3.5 font-mono shadow-sm"
             >
-              <div className={`text-xl md:text-2xl font-black ${stat.color} mb-1`}>
+              <div className="text-[10px] text-lichen-stone flex justify-between">
+                <span>{stat.code}</span>
+                <span>AUDIT</span>
+              </div>
+              <div className="text-xl md:text-2xl font-serif font-bold text-parchment-drab my-1">
                 {stat.val}
               </div>
-              <div className="text-[11px] text-gray-400 uppercase tracking-wider">
+              <div className="text-[11px] text-parchment-muted/80 uppercase">
                 {vowelFilter(stat.label)}
               </div>
             </div>
           ))}
         </div>
 
-        {/* Sarcastic Testimonials */}
-        <div className="my-12 border-2 border-dashed border-neutral-700 p-6 bg-black">
-          <h2 className="text-xl font-black font-mono text-toxic-green mb-4 flex items-center gap-2">
-            <Skull className="w-5 h-5 text-red-500" />
-            {vowelFilter('VERIFIED FARMER GRIEVANCES & TESTIMONIALS')}
+        {/* Regulatory Testimonials */}
+        <div className="my-8 border border-bureau-green p-6 bg-peat-dark">
+          <h2 className="text-base font-serif font-bold text-regulatory-gold mb-3 flex items-center gap-2">
+            <BookOpen className="w-4 h-4" />
+            {vowelFilter('FILED TESTIMONY & GRIEVANCE LOGS')}
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 font-mono text-xs text-gray-300">
-            <div className="p-4 bg-neutral-900 border-l-4 border-red-500">
-              <p className="italic">
-                "{vowelFilter('The soil pH advice was 100% scientifically correct, but while trying to click Submit, the button swapped with Reset and deleted my life savings in sorghum.')}"
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 font-mono text-xs text-parchment-muted">
+            <div className="p-3.5 bg-forester-dark border border-bureau-green/60">
+              <p className="italic leading-relaxed">
+                "{vowelFilter('The soil pH corrective schedule was mathematically rigorous and averted crop failure, but navigating the 7 annexes caused severe cognitive exhaustion.')}"
               </p>
-              <span className="block mt-2 text-yellow-400 font-bold">— Farmer Zebadiah, Nebraska</span>
+              <span className="block mt-2 text-regulatory-gold text-[11px]">— Extension Inspector H. Vance, District 4</span>
             </div>
-            <div className="p-4 bg-neutral-900 border-l-4 border-yellow-500">
-              <p className="italic">
-                "{vowelFilter('I spent 45 minutes solving the Minesweeper grid to find out my maize needed urea. The AI called me a carbon parasite. 10/10 agronomy.')}"
+            <div className="p-3.5 bg-forester-dark border border-bureau-green/60">
+              <p className="italic leading-relaxed">
+                "{vowelFilter('I spent forty-five minutes completing the core sample grid to obtain my urea dosage. The system noted my lack of patience on my permanent file.')}"
               </p>
-              <span className="block mt-2 text-yellow-400 font-bold">— Agronomist Sarah, Rift Valley</span>
+              <span className="block mt-2 text-regulatory-gold text-[11px]">— Agronomist M. Sterling, Plains Division</span>
             </div>
-            <div className="p-4 bg-neutral-900 border-l-4 border-toxic-green">
-              <p className="italic">
-                "{vowelFilter('I muted the weather strobe and my browser froze for 15 seconds while a digital locust ate my mouse cursor. Truly exceptional engineering.')}"
+            <div className="p-3.5 bg-forester-dark border border-bureau-green/60">
+              <p className="italic leading-relaxed">
+                "{vowelFilter('Silencing the meteorological alert locked my station for 15 seconds under Statute 41. Severe adherence to protocol.')}"
               </p>
-              <span className="block mt-2 text-yellow-400 font-bold">— Extension Worker Dave, Queensland</span>
+              <span className="block mt-2 text-regulatory-gold text-[11px]">— Agronomic Officer K. Lindqvist, North Sector</span>
             </div>
           </div>
         </div>

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useChaos } from '../context/ChaosContext';
 import { MinesweeperAdvisory } from '../components/MinesweeperAdvisory';
 import { CropAdvisoryData } from '../types/advisory';
-import { Printer, Download, FlipHorizontal, RotateCw, Sparkles, ArrowLeft } from 'lucide-react';
+import { Printer, FlipHorizontal, RotateCw, ArrowLeft } from 'lucide-react';
 
 export const AdvisoryResults: React.FC = () => {
   const { vowelFilter } = useChaos();
@@ -23,14 +23,13 @@ export const AdvisoryResults: React.FC = () => {
         // Fallback default
       }
     } else {
-      // Default existential response
       setAdvisory({
         cropHealthScore: 32,
         primaryDiagnosis:
           'Primary Diagnosis for Mahindi (Corn): Acute soil acidification compounded by aggressive nitrogen mismanagement and chronic human optimism.',
         actionableRecommendations: [
-          'Incorporate agricultural dolomitic limestone at 3.0 tons/ha before the remaining roots dissolve in sorrow.',
-          'Cease arbitrary chemical dumping; the mycorrhizal fungi have formally requested a transfer to a better field.',
+          'Incorporate agricultural dolomitic limestone at 3.0 tons/ha before remaining root meristems dissolve in sorrow.',
+          'Cease arbitrary chemical dumping; the mycorrhizal fungal network has submitted a formal notice of environmental default.',
           'Prepare for secondary fungal leaf blight and inevitable market disappointment.',
         ],
         riskFactor: 'HIGH',
@@ -54,15 +53,15 @@ export const AdvisoryResults: React.FC = () => {
 
   if (!advisory) {
     return (
-      <div className="min-h-screen bg-black text-toxic-green p-8 font-mono flex items-center justify-center">
-        Loading agricultural despair...
+      <div className="min-h-screen bg-forester-dark text-parchment-drab p-8 font-mono flex items-center justify-center">
+        Retrieving official crop dossier from municipal repository...
       </div>
     );
   }
 
   return (
     <div
-      className={`min-h-screen bg-black text-white p-4 md:p-8 select-none transition-transform duration-300 ${
+      className={`min-h-screen bg-forester-dark text-parchment-drab p-4 md:p-8 select-none transition-transform duration-300 ${
         exportMode === 'upside-down'
           ? 'export-upside-down-preview'
           : exportMode === 'mirrored'
@@ -70,84 +69,84 @@ export const AdvisoryResults: React.FC = () => {
           : ''
       }`}
     >
-      <div className="max-w-5xl mx-auto space-y-6">
-        {/* Top Navigation & Nightmare Export Bar */}
-        <div className="flex flex-wrap items-center justify-between gap-4 border-b-4 border-toxic-green pb-4">
+      <div className="max-w-5xl mx-auto space-y-5">
+        {/* Navigation & Export Bar */}
+        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-bureau-green pb-3">
           <Link
             to="/dashboard"
-            className="text-xs font-mono text-gray-400 hover:text-toxic-green flex items-center gap-1 border border-neutral-700 px-3 py-1.5"
+            className="text-xs font-mono text-lichen-stone hover:text-parchment-drab flex items-center gap-1 border border-bureau-green px-3 py-1.5 bg-peat-dark"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
-            <span>{vowelFilter('Return to Telemetry Hub')}</span>
+            <span>{vowelFilter('Return to Telemetry Registry')}</span>
           </Link>
 
           {/* Nightmare Export Controls */}
           <div className="flex flex-wrap items-center gap-2">
-            <span className="text-[11px] font-mono text-yellow-300 font-bold hidden sm:inline">
-              {vowelFilter('EXPORT & SHARE NIGHTMARE')}:
+            <span className="text-[11px] font-mono text-lichen-stone hidden sm:inline">
+              {vowelFilter('STATUTORY EXPORT CONTROLS')}:
             </span>
 
             <button
               onClick={() =>
                 setExportMode((m) => (m === 'upside-down' ? 'normal' : 'upside-down'))
               }
-              className={`text-xs font-mono px-3 py-1.5 border-2 flex items-center gap-1 font-bold ${
+              className={`text-xs font-mono px-3 py-1.5 border flex items-center gap-1 ${
                 exportMode === 'upside-down'
-                  ? 'bg-hostile-pink text-white border-white'
-                  : 'bg-neutral-900 text-yellow-300 border-yellow-400 hover:bg-neutral-800'
+                  ? 'bg-bureau-green text-parchment-drab border-regulatory-gold font-bold'
+                  : 'bg-peat-dark text-lichen-stone border-bureau-green hover:text-parchment-drab'
               }`}
             >
               <RotateCw className="w-3.5 h-3.5" />
-              <span>{vowelFilter('Preview Upside Down (180°)')}</span>
+              <span>{vowelFilter('Inverted Alignment (180°)')}</span>
             </button>
 
             <button
               onClick={() =>
                 setExportMode((m) => (m === 'mirrored' ? 'normal' : 'mirrored'))
               }
-              className={`text-xs font-mono px-3 py-1.5 border-2 flex items-center gap-1 font-bold ${
+              className={`text-xs font-mono px-3 py-1.5 border flex items-center gap-1 ${
                 exportMode === 'mirrored'
-                  ? 'bg-cyan-500 text-black border-white'
-                  : 'bg-neutral-900 text-cyan-300 border-cyan-400 hover:bg-neutral-800'
+                  ? 'bg-bureau-green text-parchment-drab border-regulatory-gold font-bold'
+                  : 'bg-peat-dark text-lichen-stone border-bureau-green hover:text-parchment-drab'
               }`}
             >
               <FlipHorizontal className="w-3.5 h-3.5" />
-              <span>{vowelFilter('Preview Mirrored (Scale -1)')}</span>
+              <span>{vowelFilter('Mirrored Alignment')}</span>
             </button>
 
             <button
               onClick={() => handlePrint('upside-down')}
-              className="bg-red-600 hover:bg-red-500 text-yellow-200 text-xs font-mono font-black px-4 py-1.5 border-2 border-white shadow-[2px_2px_0px_#000] flex items-center gap-1"
+              className="bg-bureau-green hover:bg-officer-moss text-parchment-drab text-xs font-mono font-medium px-3.5 py-1.5 border border-regulatory-gold flex items-center gap-1"
             >
               <Printer className="w-3.5 h-3.5" />
-              <span>{vowelFilter('Export Inverted PDF')}</span>
+              <span>{vowelFilter('Export Inverted PDF Record')}</span>
             </button>
           </div>
         </div>
 
-        {/* Page Title */}
+        {/* Title */}
         <div className="text-center py-2">
-          <div className="inline-block bg-toxic-green text-black font-mono font-black text-xs px-3 py-1 mb-2">
-            AI AGRO ADVISORY ENGINE // GEMINI 2.5 FLASH STRUCTURED OUTPUT
+          <div className="inline-block bg-peat-dark text-regulatory-gold font-mono text-[10px] px-2.5 py-0.5 border border-bureau-green mb-1.5">
+            SECTION 84-A // STRUCTURED AI ADVISORY CERTIFICATION
           </div>
-          <h1 className="text-3xl md:text-5xl font-black font-impact text-toxic-green tracking-tight phosphor-glow">
-            {vowelFilter('THE CURSED TERMINAL & MINESWEEPER REPORT')}
+          <h1 className="text-2xl md:text-3xl font-serif font-bold text-parchment-drab tracking-tight">
+            {vowelFilter('SUBSURFACE CORE SAMPLE GRID & AUDIT REPORT')}
           </h1>
-          <p className="text-xs font-mono text-yellow-300 mt-1">
-            {vowelFilter('All agronomic advice below is scientifically verified by Google GenAI and wrapped in existential dread.')}
+          <p className="text-xs font-mono text-lichen-stone mt-1">
+            {vowelFilter('All agronomic remediation steps below are mathematically certified under Gemini 2.5 Flash protocols.')}
           </p>
         </div>
 
-        {/* Minesweeper & Terminal Display */}
+        {/* Minesweeper Component */}
         <MinesweeperAdvisory advisory={advisory} metadata={meta} />
 
-        {/* Sarcastic Metadata Breakdown */}
+        {/* Meta envelope */}
         {meta && (
-          <div className="p-4 bg-neutral-950 border-2 border-neutral-800 font-mono text-xs text-gray-400 space-y-1">
-            <div className="text-yellow-400 font-bold">{vowelFilter('OBSERVABILITY ENVELOPE')}:</div>
-            <div>Epoch Entropy: {meta.epochEntropy}</div>
+          <div className="p-3.5 bg-peat-dark border border-bureau-green font-mono text-xs text-lichen-stone space-y-1">
+            <div className="text-regulatory-gold font-bold">{vowelFilter('REGULATORY OBSERVABILITY ANNEX')}:</div>
+            <div>Decay Epoch Timestamp: {meta.epochEntropy}</div>
             <div>Soil Nihilism Vector: [{meta.soilNihilismVector?.join(', ')}]</div>
-            <div className="text-pink-400">Notice: {vowelFilter(meta.warning || '')}</div>
+            <div className="text-parchment-muted">Administrative Note: {vowelFilter(meta.warning || '')}</div>
           </div>
         )}
       </div>

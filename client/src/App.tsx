@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { ChaosProvider } from './context/ChaosContext';
 import { HostileNavbar } from './components/HostileNavbar';
@@ -14,9 +14,9 @@ export const App: React.FC = () => {
   return (
     <AuthProvider>
       <ChaosProvider>
-        <BrowserRouter>
-          {/* Authentic CRT scanline overlay across entire application */}
-          <div className="crt-overlay" />
+        <HashRouter>
+          {/* Regulatory watermark overlay across entire application */}
+          <div className="nature-overlay" />
 
           {/* Hostile Dynamic Navigation Bar */}
           <HostileNavbar />
@@ -32,7 +32,7 @@ export const App: React.FC = () => {
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </main>
-        </BrowserRouter>
+        </HashRouter>
       </ChaosProvider>
     </AuthProvider>
   );

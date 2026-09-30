@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { useChaos } from '../context/ChaosContext';
 import { Rot13Input } from '../components/Rot13Input';
 import { TrollCaptchaModal } from '../components/TrollCaptchaModal';
-import { KeyRound, ShieldAlert, AlertTriangle, UserCheck } from 'lucide-react';
+import { KeyRound, Shield } from 'lucide-react';
 
 export const Login: React.FC = () => {
   const navigate = useNavigate();
@@ -16,16 +16,12 @@ export const Login: React.FC = () => {
   const [isRegisterMode, setIsRegisterMode] = useState(false);
   const [captchaOpen, setCaptchaOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-
-  // Hostile label swapping
   const [swapLabels, setSwapLabels] = useState(false);
-
-  // Position shifts on focus
   const [inputShift, setInputShift] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
 
   const handleFocusShift = () => {
-    const shiftX = Math.floor(Math.random() * 20) - 10;
-    const shiftY = Math.floor(Math.random() * 12) - 6;
+    const shiftX = Math.floor(Math.random() * 16) - 8;
+    const shiftY = Math.floor(Math.random() * 8) - 4;
     setInputShift({ x: shiftX, y: shiftY });
   };
 
@@ -33,7 +29,6 @@ export const Login: React.FC = () => {
     e.preventDefault();
     setErrorMessage('');
 
-    // Trigger riddle captcha on 50% of attempts
     if (!captchaOpen && Math.random() > 0.3) {
       setCaptchaOpen(true);
       return;
@@ -45,7 +40,7 @@ export const Login: React.FC = () => {
   const executeAuth = async () => {
     let success = false;
     if (isRegisterMode) {
-      success = await register(username, `${username}@agro-hostile.org`, password);
+      success = await register(username, `${username}@soil-commission.gov`, password);
     } else {
       success = await login(username, password);
     }
@@ -53,17 +48,17 @@ export const Login: React.FC = () => {
     if (success) {
       navigate('/dashboard');
     } else {
-      setErrorMessage('The authentication matrix deemed your soul unworthy of soil telemetry.');
+      setErrorMessage('Access denied: Soil credentials failed validation under statutory standards.');
     }
   };
 
   const handleGuestQuickPass = async () => {
-    await login('existential_farmer_99', 'inevitable_decay');
+    await login('officer_vance_88', 'statutory_compliance');
     navigate('/dashboard');
   };
 
   return (
-    <div className="min-h-screen bg-black text-white flex items-center justify-center p-4 select-none">
+    <div className="min-h-screen bg-forester-dark text-parchment-drab flex items-center justify-center p-4 select-none">
       <TrollCaptchaModal
         isOpen={captchaOpen}
         onSuccess={() => {
@@ -72,28 +67,27 @@ export const Login: React.FC = () => {
         }}
       />
 
-      <div className="w-full max-w-lg bg-neutral-950 border-4 border-hostile-pink p-6 md:p-8 shadow-[10px_10px_0px_#00ff66] relative">
-        {/* Hostile Header */}
-        <div className="text-center mb-6 pb-4 border-b-2 border-dashed border-neutral-800">
-          <div className="inline-flex p-3 bg-red-950 border-2 border-red-500 rounded-full mb-3 animate-pulse">
-            <KeyRound className="w-8 h-8 text-yellow-300" />
+      <div className="w-full max-w-lg bg-peat-dark border border-bureau-green p-6 md:p-8 shadow-xl relative">
+        <div className="text-center mb-6 pb-4 border-b border-bureau-green">
+          <div className="inline-flex p-2.5 bg-forester-dark border border-bureau-green rounded-sm mb-2.5 text-regulatory-gold">
+            <KeyRound className="w-6 h-6" />
           </div>
-          <h2 className="text-2xl font-black font-mono text-toxic-green tracking-wide phosphor-glow">
-            {vowelFilter(isRegisterMode ? 'ENLIST IN BOTANICAL DESPAIR' : 'HOSTILE AUTHENTICATION PORTAL')}
+          <h2 className="text-xl font-serif font-bold text-parchment-drab tracking-wide">
+            {vowelFilter(isRegisterMode ? 'MUNICIPAL REGISTRATION OF ARABLE OPERATOR' : 'OFFICIAL SOIL ACCESS CHECKPOINT')}
           </h2>
-          <p className="text-xs text-yellow-400 font-mono mt-1">
-            {vowelFilter('Notice: Tab order is deliberately randomized. Fields may flee under focus.')}
+          <p className="text-xs text-lichen-stone font-mono mt-1">
+            {vowelFilter('Notice: Tabulation sequence is non-linear per Security Regulation 88-C.')}
           </p>
         </div>
 
         {errorMessage && (
-          <div className="mb-4 p-3 bg-red-900/60 border-2 border-red-500 text-yellow-200 text-xs font-mono">
-            ⚠️ {vowelFilter(errorMessage)}
+          <div className="mb-4 p-3 bg-forester-dark border border-warning-rust text-parchment-drab text-xs font-mono">
+            § {vowelFilter(errorMessage)}
           </div>
         )}
 
-        <form onSubmit={handleFormSubmit} className="space-y-5">
-          {/* Username Input with Inverted TabIndex */}
+        <form onSubmit={handleFormSubmit} className="space-y-4">
+          {/* Username (Tab Index: 3) */}
           <div
             style={{
               transform: `translate(${inputShift.x}px, ${inputShift.y}px)`,
@@ -103,25 +97,25 @@ export const Login: React.FC = () => {
             <div className="flex justify-between items-center mb-1">
               <label
                 onMouseEnter={() => setSwapLabels((s) => !s)}
-                className="text-xs font-mono font-bold text-gray-300 cursor-help"
+                className="text-xs font-mono font-medium text-parchment-muted cursor-help"
               >
-                {vowelFilter(swapLabels ? 'Secret Passphrase (Swapped!)' : 'Agronomist Codename / Email')}
+                {vowelFilter(swapLabels ? 'Passphrase Key (Swapped!)' : 'Officer Codename / Identifier')}
               </label>
-              <span className="text-[10px] text-gray-500 font-mono">[Tab Index: 3]</span>
+              <span className="text-[10px] text-lichen-stone font-mono">[Tab Index: 3]</span>
             </div>
             <input
               type="text"
-              tabIndex={3} // Inverted tab order!
+              tabIndex={3}
               value={username}
               onFocus={handleFocusShift}
               onChange={(e) => setUsername(e.target.value)}
-              placeholder="e.g. soil_cynic_42"
+              placeholder="e.g. officer_vance_88"
               required
-              className="w-full bg-neutral-900 text-toxic-green border-2 border-neutral-700 focus:border-toxic-green p-2.5 font-mono text-sm focus:outline-none shadow-[2px_2px_0px_#000]"
+              className="w-full bg-forester-dark text-parchment-drab border border-bureau-green focus:border-regulatory-gold p-2.5 font-mono text-sm focus:outline-none shadow-inner"
             />
           </div>
 
-          {/* Hostile Password Input (ROT-13 / Type Jitter) */}
+          {/* Password (Tab Index: 1) */}
           <div
             style={{
               transform: `translate(${-inputShift.x}px, ${-inputShift.y}px)`,
@@ -129,48 +123,47 @@ export const Login: React.FC = () => {
             }}
           >
             <div className="flex justify-between items-center mb-1">
-              <span className="text-[10px] text-gray-500 font-mono">[Tab Index: 1]</span>
+              <span className="text-[10px] text-lichen-stone font-mono">[Tab Index: 1]</span>
             </div>
             <Rot13Input
               value={password}
               onChange={setPassword}
-              placeholder="Type password (mutates live)..."
+              placeholder="Enter statutory key..."
               required
             />
           </div>
 
-          {/* Inverted Tab Order Submit Button */}
+          {/* Submit Button (Tab Index: 2) */}
           <div className="pt-2">
             <button
               type="submit"
-              tabIndex={2} // Inverted tab index: 2 is between password (1) and username (3)
+              tabIndex={2}
               disabled={isLoading}
               onClick={() => recordRageClick('hostile_auth_submit')}
-              className="w-full bg-hostile-pink hover:bg-pink-700 text-white font-mono font-black text-sm py-3.5 border-2 border-white shadow-[4px_4px_0px_#ffff00] transition-transform active:scale-98 uppercase tracking-widest"
+              className="w-full bg-bureau-green hover:bg-officer-moss text-parchment-drab font-mono font-bold text-xs py-3 border border-regulatory-gold shadow-sm transition-colors uppercase tracking-wider"
             >
               {isLoading
-                ? 'Validating Soil Despair...'
-                : vowelFilter(isRegisterMode ? 'Enlist New Farmer Profile' : 'Authenticate & Suffer')}
+                ? 'Validating Statutory Registry...'
+                : vowelFilter(isRegisterMode ? 'Register Operator File' : 'Authenticate & Enter Docket')}
             </button>
           </div>
         </form>
 
-        {/* Mode Toggle & Fast Pass Bypass */}
-        <div className="mt-6 pt-4 border-t border-neutral-800 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs font-mono">
+        <div className="mt-5 pt-3 border-t border-bureau-green flex flex-col sm:flex-row items-center justify-between gap-3 text-xs font-mono">
           <button
             type="button"
             onClick={() => setIsRegisterMode((m) => !m)}
-            className="text-yellow-400 hover:text-toxic-green underline"
+            className="text-regulatory-gold hover:underline"
           >
-            {vowelFilter(isRegisterMode ? 'Already doomed? Log in here' : 'Need new record of failures? Register')}
+            {vowelFilter(isRegisterMode ? 'Return to Standard Sign-in' : 'New Arable Operator? File Registration')}
           </button>
 
           <button
             type="button"
             onClick={handleGuestQuickPass}
-            className="bg-neutral-900 hover:bg-neutral-800 text-toxic-green border border-toxic-green px-3 py-1.5 text-[11px] font-bold"
+            className="bg-forester-dark hover:bg-peat-dark text-parchment-muted border border-bureau-green px-2.5 py-1 text-[11px]"
           >
-            ⚡ {vowelFilter('Direct Bypass (Guest Mode)')}
+            {vowelFilter('Expedited Officer Pass (Bypass)')}
           </button>
         </div>
       </div>
